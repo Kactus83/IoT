@@ -1,10 +1,11 @@
 #include "WiFiManager.h"
 
-WiFiManager::WiFiManager() : ssid(WiFiConfig::SSID), password(WiFiConfig::PASSWORD) {
+WiFiManager::WiFiManager(WiFiConfig& wifiConfig)
+  : wifiConfig(wifiConfig) {
 }
 
 void WiFiManager::connect() {
-  WiFi.begin(ssid, password);
+  WiFi.begin(wifiConfig.getSSID(), wifiConfig.getPassword());
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");

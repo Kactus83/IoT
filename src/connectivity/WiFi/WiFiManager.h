@@ -2,18 +2,17 @@
 #define WIFI_MANAGER_H
 
 #include <WiFiNINA.h>
-#include "../config/WiFiConfig.h"
+#include "../../config/Config.h"
 
 class WiFiManager {
 private:
   WiFiClient wifiClient;
-  const char* ssid;
-  const char* password;
+  WiFiConfig& wifiConfig;
 
 public:
-  WiFiManager();
+  WiFiManager(WiFiConfig& wifiConfig);
   void connect();
   WiFiClient& getWiFiClient();
 };
 
-#endif
+#endif // WIFI_MANAGER_H
