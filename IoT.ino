@@ -1,8 +1,8 @@
-#include "WiFiManager.h"
-#include "MQTTManager.h"
-#include "MessageHandler.h"
-#include "RGB_LED_Info.h"
-#include "RGBLEDManager.h" 
+#include "./connectivity/WiFiManager.h"
+#include "./connectivity/MQTTManager.h"
+#include "./messages/MessageHandler.h"
+#include "./entities/RGB_LED/RGB_LED_Info.h"
+#include "./entities/RGB_LED/RGBLEDManager.h" 
 
 WiFiManager wifiManager;
 MessageHandler messageHandler;

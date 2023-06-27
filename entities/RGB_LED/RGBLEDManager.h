@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include "RGB_LED_Info.h"
 #include "RGB_LED_State.h"
-#include "MessageHandler.h"
+#include "../../messages/MessageHandler.h"
 
 class RGBLEDManager {
 private:

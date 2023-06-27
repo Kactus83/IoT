@@ -2,7 +2,7 @@
 #define MESSAGE_HANDLER_H
 
 #include <Arduino.h>
-#include "RGB_LED_State.h"
+#include "../entities/RGB_LED/RGB_LED_State.h"
 
 class MessageHandler {
 private:

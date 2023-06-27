@@ -2,7 +2,7 @@
 #define WIFI_MANAGER_H
 
 #include <WiFiNINA.h>
-#include "WiFiConfig.h"
+#include "../config/WiFiConfig.h"
 
 class WiFiManager {
 private:

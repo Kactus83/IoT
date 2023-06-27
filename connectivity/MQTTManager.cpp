@@ -1,5 +1,5 @@
 #include "MQTTManager.h"
-#include "RGB_LED_Info.h"
+#include "../entities/RGB_LED/RGB_LED_Info.h"
 
 MQTTManager* globalMQTTManager; // This is needed to bridge the callback
 

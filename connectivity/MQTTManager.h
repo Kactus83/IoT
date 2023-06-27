@@ -3,9 +3,9 @@
 
 #include <WiFiClient.h>
 #include <PubSubClient.h>
-#include "MessageHandler.h"
-#include "MQTTConfig.h"
-#include "RGB_LED_Info.h"
+#include "../messages/MessageHandler.h"
+#include "../config/MQTTConfig.h"
+#include "../entities/RGB_LED/RGB_LED_Info.h"
 
 class MQTTManager {
   private:
