@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "./WiFi/WiFiConfig.h"
 #include "./MQTT/MQTTConfig.h"
+#include "./Device/DeviceConfig.h"
 
 class Config {
 public:
@@ -20,6 +21,10 @@ public:
     return mqttConfig;
   }
 
+  DeviceConfig& getDeviceConfig() {
+    return deviceConfig;
+  }
+
 private:
   // MQTT parameters
   const char* MQTT_SERVER = "192.168.1.98";
@@ -31,8 +36,14 @@ private:
   const char* WIFI_SSID = "24ghz";
   const char* WIFI_PASSWORD = "PsLyzNnnMBGAcS1jql4H";
 
+  // Device parameters
+  const char* INTEGRATION_NAME = "flo_perso";
+  const char* DEVICE_NAME = "test_device";
+  const char* UNIQUE_ID = "unic_id";
+
   WiFiConfig wifiConfig = WiFiConfig(WIFI_SSID, WIFI_PASSWORD);
   MQTTConfig mqttConfig = MQTTConfig(MQTT_SERVER, MQTT_PORT, MQTT_USERNAME, MQTT_PASSWORD);
+  DeviceConfig deviceConfig = DeviceConfig(INTEGRATION_NAME, DEVICE_NAME, UNIQUE_ID);
 
   // Private constructor to prevent instancing.
   Config() {}

@@ -50,3 +50,11 @@ void MQTTManager::sendMQTTMessage(const char* topic, const char* payload) {
     Serial.println("Failed to send MQTT message. MQTT client is not connected.");
   }
 }
+
+void MQTTManager::subscribeToTopic(const char* topic) {
+  if (mqttClient.connected()) {
+    mqttClient.subscribe(topic);
+  } else {
+    Serial.println("Failed to subscribe to MQTT topic. MQTT client is not connected.");
+  }
+}

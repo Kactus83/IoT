@@ -16,3 +16,16 @@ void ConnectivityManager::update() {
 void ConnectivityManager::sendMQTTMessage(const char* topic, const char* payload) {
   mqttManager.sendMQTTMessage(topic, payload);
 }
+
+void ConnectivityManager::subscribeToTopic(const char* topic) {
+  mqttManager.subscribeToTopic(topic);
+}
+
+String ConnectivityManager::getLastMQTTMessage(const char* topic) {
+  String lastMessage = messageHandler.getLastMessage(topic);
+  return lastMessage;
+}
+
+void ConnectivityManager::clearLastMQTTMessage(const char* topic) {
+  messageHandler.clearLastMessage(topic);
+}

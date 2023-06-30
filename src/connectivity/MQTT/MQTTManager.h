@@ -1,4 +1,3 @@
-// MQTTManager.h
 #ifndef MQTTMANAGER_H
 #define MQTTMANAGER_H
 
@@ -21,6 +20,7 @@ public:
   void begin();
   void update();
   void sendMQTTMessage(const char* topic, const char* payload);
+  void subscribeToTopic(const char* topic);
 
   static MQTTManager* instance;
 };

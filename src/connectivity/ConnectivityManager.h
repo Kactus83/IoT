@@ -1,4 +1,3 @@
-// ConnectivityManager.h
 #ifndef CONNECTIVITY_MANAGER_H
 #define CONNECTIVITY_MANAGER_H
 
@@ -20,6 +19,9 @@ public:
   void begin();
   void update();
   void sendMQTTMessage(const char* topic, const char* payload);
+  void subscribeToTopic(const char* topic);
+  String getLastMQTTMessage(const char* topic);
+  void clearLastMQTTMessage(const char* topic);
 };
 
-#endif // CONNECTIVITY_MANAGER_H
+#endif
