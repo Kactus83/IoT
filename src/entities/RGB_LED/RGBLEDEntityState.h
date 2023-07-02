@@ -24,6 +24,7 @@ public:
     json["mode"] = mode;
   }
 
+
   
   void updateFromJson(const JsonObject& json) {
     EntityState::updateFromJson(json);

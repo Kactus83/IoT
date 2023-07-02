@@ -23,8 +23,8 @@ void EntityMessageManager::sendDiscoveryMessage() {
   
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, discoveryPayload);
-  JsonObject state = doc.createNestedObject("state");
-  entityState.populateJson(state);
+  JsonObject root = doc.as<JsonObject>();
+  entityState.populateJson(root);
 
   String output;
   serializeJson(doc, output);
@@ -34,8 +34,8 @@ void EntityMessageManager::sendDiscoveryMessage() {
 void EntityMessageManager::checkAndSendState() {
   if(entityState.shoudBeSent() && entityState.isEnabled()) {
     DynamicJsonDocument doc(1024);
-    JsonObject state = doc.createNestedObject("state");
-    entityState.populateJson(state);
+    JsonObject root = doc.as<JsonObject>();
+    entityState.populateJson(root);
 
     String output;
     serializeJson(doc, output);
