@@ -1,7 +1,7 @@
 #include <vector>
 #include "../connectivity/ConnectivityManager.h"
 #include "./models/Entity.h"
-#include "./models/EntityInfo.h"
+#include "./models/EntityConfig.h"
 #include "./models/EntityState.h"
 
 class EntityManager {

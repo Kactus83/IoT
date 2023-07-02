@@ -1,25 +1,23 @@
-// Entity.h
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "EntityInfo.h"
+#include <ArduinoJson.h>
+#include "EntityConfig.h"
 #include "EntityState.h"
-#include "../../connectivity/ConnectivityManager.h"
+#include "EntityMessageManager.h"
 
 class Entity {
 protected:
-  EntityInfo entityInfo;
+  EntityConfig entityConfig;
   EntityState entityState;
-  ConnectivityManager& connectivityManager;
-  void sendDiscoveryMessage();
-  void processIncomingMessage();
-  void process();
-  void checkAndSendState();
-  
+  EntityMessageManager entityMessageManager;
+
 public:
   Entity(DeviceConfig& deviceConfig, String unique_id, String type, ConnectivityManager& connectivityManager);
-  void setup();
-  void loop();
+
+  virtual void setup();
+  virtual void loop();
+  virtual void process() = 0; // Pure virtual function makes this class Abstract class
 };
 
 #endif // ENTITY_H

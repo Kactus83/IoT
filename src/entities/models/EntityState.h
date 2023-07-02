@@ -5,21 +5,23 @@
 
 class EntityState {
 protected:
-
-  // For entity or home assistant process
   bool enabled;
-
-  // For internal process
-  bool hasBeenSent;
+  bool hasBeenUpdated;
 
 public:
-  EntityState(bool enabled = true, bool hasBeenSent = false);
-  void populateJson(JsonObject& json);
-  void updateFromJson(const JsonObject& json);
-  bool isEnabled();
-  void setEnabled(bool enabled);
-  bool isHasBeenSent();
-  void setHasBeenSent(bool hasBeenSent);
+  EntityState(bool enabled = true, bool hasBeenUpdated = false) 
+    : enabled(enabled), hasBeenUpdated(hasBeenUpdated) {}
+
+  void populateJson(JsonObject& json) { json["enabled"] = enabled; }
+  void updateFromJson(const JsonObject& json) {
+    if(json.containsKey("enabled")) {
+      enabled = json["enabled"];
+    }
+  }
+  bool isEnabled() { return enabled; }
+  void setEnabled(bool enabled) { this->enabled = enabled; }
+  bool shoudBeSent() { return hasBeenUpdated; }
+  void setHasBeenUpdated(bool hasBeenUpdated) { this->hasBeenUpdated = hasBeenUpdated; }
 };
 
 #endif // ENTITYSTATE_H
