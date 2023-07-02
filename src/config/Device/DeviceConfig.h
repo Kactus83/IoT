@@ -7,7 +7,7 @@ public:
         : INTEGRATION_NAME(integrationName), UNIQUE_ID(unicId), DEVICE_NAME(deviceName) {}
     const char* getIntegrationName() { return INTEGRATION_NAME; }
     const char* getDeviceName() { return DEVICE_NAME; }
-    const char* getUnicId() { return UNIQUE_ID; }
+    const char* getUniqueId() { return UNIQUE_ID; }
 
 private:
     const char* INTEGRATION_NAME;
