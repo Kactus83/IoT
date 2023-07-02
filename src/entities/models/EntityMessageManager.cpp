@@ -4,7 +4,6 @@ EntityMessageManager::EntityMessageManager(DeviceConfig& deviceConfig, EntityCon
     : deviceConfig(deviceConfig), entityConfig(entityConfig), entityState(entityState), connectivityManager(connectivityManager) {
       postAddress = String(deviceConfig.getIntegrationName()) + "/" + entityConfig.getUniqueId() + "/set";
       discoveryTopic = String(deviceConfig.getIntegrationName()) + "/discovery";
-      discoveryPayload = String("{\"unique_id\": \"") + entityConfig.getUniqueId() + "\", \"type\": \"" + entityConfig.getType() + "\", \"name\": \"" + entityConfig.getName() + "\"}";
 }
 
 
@@ -19,6 +18,9 @@ void EntityMessageManager::loop() {
 }
 
 void EntityMessageManager::sendDiscoveryMessage() {
+  // Création du payload de découverte au moment de l'envoi
+  String discoveryPayload = String("{\"unique_id\": \"") + entityConfig.getUniqueId() + "\", \"type\": \"" + entityConfig.getType() + "\", \"name\": \"" + entityConfig.getName() + "\"}";
+  
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, discoveryPayload);
   JsonObject state = doc.createNestedObject("state");

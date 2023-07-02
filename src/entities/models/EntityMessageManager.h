@@ -15,7 +15,6 @@ private:
   EntityState& entityState;
   String postAddress;
   String discoveryTopic;
-  String discoveryPayload;
 
   void sendDiscoveryMessage();
   void processIncomingMessage();
