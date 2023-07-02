@@ -15,7 +15,7 @@ public:
   RGBLEDEntityState() 
     : EntityState(true, false), brightness(0), hs_color_1(0.0), hs_color_2(0.0), state("OFF"), mode(0) {}
 
-  void populateJson(JsonObject& json) {
+  void populateJson(JsonObject& json) override {
     EntityState::populateJson(json);
     json["brightness"] = brightness;
     json["hs_color_1"] = hs_color_1;
@@ -23,6 +23,7 @@ public:
     json["state"] = state;
     json["mode"] = mode;
   }
+
   
   void updateFromJson(const JsonObject& json) {
     EntityState::updateFromJson(json);

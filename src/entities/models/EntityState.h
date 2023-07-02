@@ -12,7 +12,7 @@ public:
   EntityState(bool enabled = true, bool hasBeenUpdated = false) 
     : enabled(enabled), hasBeenUpdated(hasBeenUpdated) {}
 
-  void populateJson(JsonObject& json) { json["enabled"] = enabled; }
+  virtual void populateJson(JsonObject& json) { json["enabled"] = enabled; }
   void updateFromJson(const JsonObject& json) {
     if(json.containsKey("enabled")) {
       enabled = json["enabled"];

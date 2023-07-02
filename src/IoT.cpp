@@ -8,6 +8,7 @@ EntityManager entityManager(connectivityManager);
 
 void setup() {
   Serial.begin(9600);
+  entityManager.addRGBLEDEntity(6, 145);
   connectivityManager.begin();
   entityManager.setup();
 }

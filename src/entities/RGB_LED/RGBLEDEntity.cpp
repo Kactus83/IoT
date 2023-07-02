@@ -1,7 +1,10 @@
 #include "RGBLEDEntity.h"
 
 RGBLEDEntity::RGBLEDEntity(String unique_id, int ledPin, int numOfLED, ConnectivityManager& connectivityManager)
-  : Entity(unique_id, "light", connectivityManager), ledEntityConfig(unique_id, ledPin, numOfLED), strip(Adafruit_NeoPixel(numOfLED, ledPin, NEO_GRB + NEO_KHZ800)) {}
+  : Entity(ledEntityConfig, ledEntityState, connectivityManager), 
+    ledEntityConfig(unique_id, ledPin, numOfLED), 
+    strip(Adafruit_NeoPixel(numOfLED, ledPin, NEO_GRB + NEO_KHZ800))
+{} 
 
 void RGBLEDEntity::setupEntity() {
   strip.begin();

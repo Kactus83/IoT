@@ -10,7 +10,7 @@ private:
 
 public:
   RGBLEDEntityConfig(String unique_id, int ledPin, int numOfLED) 
-    : EntityConfig(unique_id, "light"), ledPin(ledPin), numOfLED(numOfLED) {}
+    : EntityConfig(unique_id, "light", "RGB LED"), ledPin(ledPin), numOfLED(numOfLED) {}  // Ajout de l'argument "RGB LED"
 
   int getLedPin() { return ledPin; }
   int getNumOfLED() { return numOfLED; }
