@@ -12,11 +12,12 @@ protected:
   EntityState entityState;
   ConnectivityManager& connectivityManager;
   void sendDiscoveryMessage();
-  void checkAndSendState();
   void processIncomingMessage();
+  void process();
+  void checkAndSendState();
   
 public:
-  Entity(DeviceConfig& deviceConfig, String unique_id, ConnectivityManager& connectivityManager);
+  Entity(DeviceConfig& deviceConfig, String unique_id, String type, ConnectivityManager& connectivityManager);
   void setup();
   void loop();
 };

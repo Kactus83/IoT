@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(DeviceConfig& deviceConfig, String unique_id, ConnectivityManager& connectivityManager)
-  : entityInfo(deviceConfig, unique_id), connectivityManager(connectivityManager) {}
+Entity::Entity(DeviceConfig& deviceConfig, String unique_id, String type, ConnectivityManager& connectivityManager)
+  : entityInfo(deviceConfig, unique_id, type), connectivityManager(connectivityManager) {}
 
 void Entity::setup() {
   connectivityManager.subscribeToTopic(entityInfo.getPostAddress().c_str());
@@ -9,8 +9,9 @@ void Entity::setup() {
 }
 
 void Entity::loop() {
-  checkAndSendState();
   processIncomingMessage();
+  process();
+  checkAndSendState();
 }
 
 void Entity::sendDiscoveryMessage() {
@@ -23,6 +24,10 @@ void Entity::sendDiscoveryMessage() {
   String output;
   serializeJson(doc, output);
   connectivityManager.sendMQTTMessage(entityInfo.getDiscoveryTopic().c_str(), output.c_str());
+}
+
+void Entity::process() {
+  // Must be implented by derivated classes
 }
 
 void Entity::checkAndSendState() {
