@@ -1,6 +1,8 @@
 #ifndef ENTITYCONFIG_H
 #define ENTITYCONFIG_H
 
+#include <String.h>
+
 class EntityConfig {
 protected:
   String unique_id;

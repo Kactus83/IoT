@@ -18,7 +18,6 @@ private:
   String discoveryPayload;
 
   void sendDiscoveryMessage();
-  void checkAndSendState();
   void processIncomingMessage();
 
 public:
@@ -26,6 +25,7 @@ public:
 
   void setup();
   void loop();
+  void checkAndSendState();
 };
 
 #endif // ENTITYMESSAGEMANAGER_H

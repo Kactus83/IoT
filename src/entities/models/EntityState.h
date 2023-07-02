@@ -17,6 +17,7 @@ public:
     if(json.containsKey("enabled")) {
       enabled = json["enabled"];
     }
+    setHasBeenUpdated(true);
   }
   bool isEnabled() { return enabled; }
   void setEnabled(bool enabled) { this->enabled = enabled; }
