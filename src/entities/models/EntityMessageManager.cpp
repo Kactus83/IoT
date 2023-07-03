@@ -20,7 +20,6 @@ void EntityMessageManager::loop() {
 void EntityMessageManager::sendDiscoveryMessage() {
   // Création du payload de découverte au moment de l'envoi
   String discoveryPayload = String("{\"unique_id\": \"") + entityConfig->getUniqueId() + "\", \"type\": \"" + entityConfig->getType() + "\", \"name\": \"" + entityConfig->getName() + "\"}";
-  
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, discoveryPayload);
   JsonObject root = doc.as<JsonObject>();
@@ -32,19 +31,23 @@ void EntityMessageManager::sendDiscoveryMessage() {
 }
 
 void EntityMessageManager::checkAndSendState() {
+  
   if(entityState->shoudBeSent() && entityState->isEnabled()) {
-    DynamicJsonDocument doc(1024);
-    JsonObject root = doc.as<JsonObject>();
+    DynamicJsonDocument doc(4096);
+    JsonObject root = doc.to<JsonObject>();
     entityState->populateJson(root);
 
     String output;
     serializeJson(doc, output);
-    
-    if (output != NULL && output.length() > 0) { // Vérification si la chaîne de caractères est non vide
+    if (doc.overflowed()) {
+    Serial.println("DynamicJsonDocument overflowed");
+    }
+
+    if (output != "null") {
       connectivityManager.sendMQTTMessage(postAddress.c_str(), output.c_str());
       entityState->resetHasBeenUpdated();
     } else {
-      Serial.println("Failed to send MQTT message. JSON serialized string is empty.");
+      Serial.println("Failed to send MQTT message. JSON serialized string is null.");
     }
   }
 }
@@ -56,11 +59,6 @@ void EntityMessageManager::processIncomingMessage() {
       DynamicJsonDocument doc(1024);
       deserializeJson(doc, message);
 
-      // Log the received message
-      Serial.print("Received message: ");
-      serializeJson(doc, Serial);
-      Serial.println();
-
       // Process the incoming message
       entityState->updateFromJson(doc.as<JsonObject>());
 
@@ -69,5 +67,3 @@ void EntityMessageManager::processIncomingMessage() {
     }
   }
 }
-
-

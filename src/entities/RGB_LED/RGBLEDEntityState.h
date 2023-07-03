@@ -15,13 +15,20 @@ public:
   RGBLEDEntityState() 
     : EntityState(true, false), brightness(0), hs_color_1(0.0), hs_color_2(0.0), state("OFF"), mode(0) {}
 
-  void populateJson(JsonObject& json) override {
+  void RGBLEDEntityState::populateJson(JsonObject& json) override {
     EntityState::populateJson(json);
     json["brightness"] = brightness;
     json["hs_color_1"] = hs_color_1;
     json["hs_color_2"] = hs_color_2;
     json["state"] = state;
     json["mode"] = mode;
+
+    // DEBUG: Ajout d'une déclaration de débogage pour voir les valeurs qui sont ajoutées au JSON.
+    Serial.println("Populating JSON: brightness=" + String(brightness)
+      + ", hs_color_1=" + String(hs_color_1)
+      + ", hs_color_2=" + String(hs_color_2)
+      + ", state=" + state
+      + ", mode=" + String(mode));
   }
   
   void updateFromJson(const JsonObject& json) override {
