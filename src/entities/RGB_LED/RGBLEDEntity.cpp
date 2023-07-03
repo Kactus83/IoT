@@ -15,9 +15,9 @@ void RGBLEDEntity::setupEntity() {
 void RGBLEDEntity::process() {
   if (ledEntityState.getState() == "ON") {
     // Conversion de HS vers RGB
-    uint16_t hue = ledEntityState.getHsColor1() * 65535; // HUE est sur une échelle de 0 à 65535
-    uint8_t sat = ledEntityState.getHsColor2() * 255; // SATURATION est sur une échelle de 0 à 255
-    uint8_t val = ledEntityState.getBrightness(); // BRIGHTNESS est sur une échelle de 0 à 255
+    uint16_t hue = (uint16_t)((ledEntityState.getHsColor1() / 360.0) * 65535); // HUE conversion
+    uint8_t sat = (uint8_t)((ledEntityState.getHsColor2() / 100.0) * 255); // SATURATION conversion
+    uint8_t val = ledEntityState.getBrightness(); // BRIGHTNESS is on a scale of 0 to 255
 
     // Remplissage de la bande de LEDs avec la couleur obtenue
     for (int i = 0; i < ledEntityConfig.getNumOfLED(); ++i) {
@@ -34,3 +34,5 @@ void RGBLEDEntity::process() {
   // Envoi de la mise à jour à la bande de LEDs
   strip.show();
 }
+
+
