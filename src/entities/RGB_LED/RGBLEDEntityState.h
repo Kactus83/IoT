@@ -42,8 +42,11 @@ public:
       hs_color_1 = json["hs_color_1"];
       Serial.println("Updated hs_color_1: " + String(hs_color_1));
     }
-    if(json.containsKey("hs_color_2")) {
-      hs_color_2 = json["hs_color_2"];
+    if(json.containsKey("hs_color")) {
+      JsonArray hs_color = json["hs_color"];
+      hs_color_1 = hs_color[0];
+      hs_color_2 = hs_color[1];
+      Serial.println("Updated hs_color_1: " + String(hs_color_1));
       Serial.println("Updated hs_color_2: " + String(hs_color_2));
     }
     if(json.containsKey("state")) {
