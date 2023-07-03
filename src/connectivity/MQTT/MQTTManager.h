@@ -12,9 +12,12 @@ private:
   PubSubClient mqttClient;
   MQTTConfig& mqttConfig;
   MessageHandler* messageHandler;
+  String* subscribedTopics;
+  int numTopics = 0;
 
 public:
   MQTTManager(WiFiClient& wifiClient, MQTTConfig& mqttConfig, MessageHandler* messageHandler);
+  ~MQTTManager();
   static void staticCallback(char* topic, byte* payload, unsigned int length);
   void nonStaticCallback(char* topic, byte* payload, unsigned int length);
   void begin();

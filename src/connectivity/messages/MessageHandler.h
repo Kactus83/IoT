@@ -7,9 +7,10 @@
 class MessageHandler {
 private:
   std::map<String, String> topicMessages;
+  std::map<String, bool> newMessageAvailable;
 
 public:
-  void handleMessage(const String& topic, byte* payload, unsigned int length) {
+  void MessageHandler::handleMessage(const String& topic, byte* payload, unsigned int length) {
     // Convert the payload to a string
     char msg[length + 1];
     memcpy(msg, payload, length);
@@ -17,7 +18,16 @@ public:
 
     // Store the message associated with the topic
     topicMessages[topic] = String(msg);
+
+    // Indicate that a new message is available
+    if (String(msg) != "null") {
+      newMessageAvailable[topic] = true;
+    } else {
+      newMessageAvailable[topic] = false;
+    }
   }
+
+
 
   String getLastMessage(const String& topic) const {
     // Find the last message for the topic
@@ -25,8 +35,14 @@ public:
     return it != topicMessages.end() ? it->second : String("");
   }
 
+  bool isNewMessageAvailable(const String& topic) const {
+    auto it = newMessageAvailable.find(topic);
+    return it != newMessageAvailable.end() ? it->second : false;
+  }
+
   void clearLastMessage(const String& topic) {
     topicMessages.erase(topic);
+    newMessageAvailable[topic] = false; 
   }
 };
 

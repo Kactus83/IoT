@@ -31,6 +31,7 @@ private:
   const int MQTT_PORT = 1883;
   const char* MQTT_USERNAME = "MQTT";
   const char* MQTT_PASSWORD = "MQTT_mqtt_2023!";
+  int MAX_TOPIC = 10;
 
   // WiFi parameters
   const char* WIFI_SSID = "24ghz";
@@ -42,7 +43,7 @@ private:
   const char* UNIQUE_ID = "unic_id";
 
   WiFiConfig wifiConfig = WiFiConfig(WIFI_SSID, WIFI_PASSWORD);
-  MQTTConfig mqttConfig = MQTTConfig(MQTT_SERVER, MQTT_PORT, MQTT_USERNAME, MQTT_PASSWORD);
+  MQTTConfig mqttConfig = MQTTConfig(MQTT_SERVER, MQTT_PORT, MQTT_USERNAME, MQTT_PASSWORD, MAX_TOPIC);
   DeviceConfig deviceConfig = DeviceConfig(INTEGRATION_NAME, DEVICE_NAME, UNIQUE_ID);
 
   // Private constructor to prevent instancing.

@@ -22,6 +22,7 @@ public:
   void subscribeToTopic(const char* topic);
   String getLastMQTTMessage(const char* topic);
   void clearLastMQTTMessage(const char* topic);
+  bool isNewMessageAvailable(const char* topic);
 };
 
 #endif

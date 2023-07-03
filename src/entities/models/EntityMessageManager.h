@@ -9,22 +9,23 @@
 
 class EntityMessageManager {
 private:
-  ConnectivityManager& connectivityManager;
   DeviceConfig& deviceConfig;
-  EntityConfig& entityConfig;
-  EntityState& entityState;
+  EntityConfig* entityConfig; 
+  EntityState* entityState; 
+  ConnectivityManager& connectivityManager;
   String postAddress;
+  String listeningAddress;
   String discoveryTopic;
 
-  void sendDiscoveryMessage();
-  void processIncomingMessage();
-
 public:
-  EntityMessageManager(DeviceConfig& deviceConfig, EntityConfig& entityConfig, EntityState& entityState, ConnectivityManager& connectivityManager);
-
+  EntityMessageManager(DeviceConfig& deviceConfig, EntityConfig* entityConfig, EntityState* entityState, ConnectivityManager& connectivityManager);
   void setup();
   void loop();
   void checkAndSendState();
+  
+private:
+  void sendDiscoveryMessage();
+  void processIncomingMessage();
 };
 
 #endif // ENTITYMESSAGEMANAGER_H

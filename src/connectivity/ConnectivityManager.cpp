@@ -19,6 +19,7 @@ void ConnectivityManager::sendMQTTMessage(const char* topic, const char* payload
 
 void ConnectivityManager::subscribeToTopic(const char* topic) {
   mqttManager.subscribeToTopic(topic);
+  Serial.println("Topic subscribed.");
 }
 
 String ConnectivityManager::getLastMQTTMessage(const char* topic) {
@@ -28,4 +29,8 @@ String ConnectivityManager::getLastMQTTMessage(const char* topic) {
 
 void ConnectivityManager::clearLastMQTTMessage(const char* topic) {
   messageHandler.clearLastMessage(topic);
+}
+
+bool ConnectivityManager::isNewMessageAvailable(const char* topic) {
+  return messageHandler.isNewMessageAvailable(topic);
 }

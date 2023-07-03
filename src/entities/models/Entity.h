@@ -9,10 +9,12 @@
 
 class Entity {
 protected:
+  EntityConfig* entityConfig;
+  EntityState* entityState;
   EntityMessageManager* entityMessageManager = nullptr;
 
 public:
-  Entity(EntityConfig& config, EntityState& state, ConnectivityManager& connectivityManager);
+  Entity(EntityConfig* config, EntityState* state, ConnectivityManager& connectivityManager);
   virtual ~Entity();
 
   virtual void setup();

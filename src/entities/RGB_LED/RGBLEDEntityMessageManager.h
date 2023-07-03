@@ -7,8 +7,8 @@
 
 class RGBLEDEntityMessageManager : public EntityMessageManager {
 public:
-  RGBLEDEntityMessageManager(DeviceConfig& deviceConfig, RGBLEDEntityConfig& entityConfig, RGBLEDEntityState& entityState, ConnectivityManager& connectivityManager)
-    : EntityMessageManager(deviceConfig, entityConfig, entityState, connectivityManager) {}
+  RGBLEDEntityMessageManager(DeviceConfig& deviceConfig, RGBLEDEntityConfig* entityConfig, RGBLEDEntityState* entityState, ConnectivityManager& connectivityManager)
+      : EntityMessageManager(deviceConfig, entityConfig, entityState, connectivityManager) {}
 };
 
 #endif // RGBLEDENTITYMESSAGEMANAGER_H

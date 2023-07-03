@@ -23,26 +23,31 @@ public:
     json["state"] = state;
     json["mode"] = mode;
   }
-
-
   
-  void updateFromJson(const JsonObject& json) {
+  void updateFromJson(const JsonObject& json) override {
+    Serial.println("UpdateFromJson called");
     EntityState::updateFromJson(json);
     if(json.containsKey("brightness")) {
       brightness = json["brightness"];
+      Serial.println("Updated brightness: " + String(brightness));
     }
     if(json.containsKey("hs_color_1")) {
       hs_color_1 = json["hs_color_1"];
+      Serial.println("Updated hs_color_1: " + String(hs_color_1));
     }
     if(json.containsKey("hs_color_2")) {
       hs_color_2 = json["hs_color_2"];
+      Serial.println("Updated hs_color_2: " + String(hs_color_2));
     }
     if(json.containsKey("state")) {
       state = json["state"].as<String>();
+      Serial.println("Updated state: " + state);
     }
     if(json.containsKey("mode")) {
       mode = json["mode"];
+      Serial.println("Updated mode: " + String(mode));
     }
+    Serial.println("State Updated.");
     setHasBeenUpdated(true);
   }
 

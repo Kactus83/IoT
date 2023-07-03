@@ -6,10 +6,14 @@ MQTTManager::MQTTManager(WiFiClient& wifiClient, MQTTConfig& mqttConfig, Message
   : wifiClient(wifiClient), mqttClient(wifiClient), mqttConfig(mqttConfig), messageHandler(messageHandler) {
   instance = this;
   mqttClient.setCallback(MQTTManager::staticCallback);
+  subscribedTopics = new String[mqttConfig.getMaxTopic()];  // Initialize subscribedTopics with the maximum size from the configuration
+}
+
+MQTTManager::~MQTTManager() {
+  delete[] subscribedTopics;  // Delete the array when the object is destroyed
 }
 
 void MQTTManager::staticCallback(char* topic, byte* payload, unsigned int length) {
-  // call the non-static callback using the instance pointer
   if (instance) {
     instance->nonStaticCallback(topic, payload, length);
   }
@@ -25,7 +29,10 @@ void MQTTManager::begin() {
   mqttClient.setServer(mqttConfig.getServer(), mqttConfig.getPort());
   if (!mqttClient.connected()) {
     if (mqttClient.connect("ESP8266Client", mqttConfig.getUsername(), mqttConfig.getPassword())) {
-      Serial.println("connected");
+      Serial.println("connected");      
+      for (int i = 0; i < numTopics; i++) {
+        mqttClient.subscribe(subscribedTopics[i].c_str());
+      }
     } else {
       Serial.print("failed, rc=");
       Serial.print(mqttClient.state());
@@ -45,7 +52,13 @@ void MQTTManager::update() {
 
 void MQTTManager::sendMQTTMessage(const char* topic, const char* payload) {
   if (mqttClient.connected()) {
-    mqttClient.publish(topic, payload, true);
+    if (payload != NULL && strlen(payload) > 0) {
+      mqttClient.publish(topic, payload, true);
+      Serial.println("MQTT message sent.");
+      Serial.println(payload);
+    } else {
+      Serial.println("Failed to send MQTT message. Payload is empty.");
+    }
   } else {
     Serial.println("Failed to send MQTT message. MQTT client is not connected.");
   }
@@ -53,7 +66,16 @@ void MQTTManager::sendMQTTMessage(const char* topic, const char* payload) {
 
 void MQTTManager::subscribeToTopic(const char* topic) {
   if (mqttClient.connected()) {
-    mqttClient.subscribe(topic);
+    if (mqttClient.subscribe(topic)) {
+      Serial.print("Successfully subscribed to topic: ");
+      Serial.println(topic);
+      if(numTopics < mqttConfig.getMaxTopic()) {
+        subscribedTopics[numTopics++] = String(topic);
+      }
+    } else {
+      Serial.print("Failed to subscribe to topic: ");
+      Serial.println(topic);
+    }
   } else {
     Serial.println("Failed to subscribe to MQTT topic. MQTT client is not connected.");
   }

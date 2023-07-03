@@ -1,11 +1,14 @@
 #include "Entity.h"
 
-Entity::Entity(EntityConfig& config, EntityState& state, ConnectivityManager& connectivityManager) {
+Entity::Entity(EntityConfig* config, EntityState* state, ConnectivityManager& connectivityManager) {
+  entityConfig = config;
+  entityState = state;
   entityMessageManager = new EntityMessageManager(Config::getInstance().getDeviceConfig(), config, state, connectivityManager);
 }
 
 Entity::~Entity() {
   delete entityMessageManager;
+  // Vous devrez peut-être aussi libérer entityConfig et entityState si ces objets ne sont pas gérés ailleurs
 }
 
 void Entity::setup() {
@@ -14,7 +17,7 @@ void Entity::setup() {
 }
 
 void Entity::loop() {
-  entityMessageManager->checkAndSendState();
-  process();  // Process entity-specific tasks
   entityMessageManager->loop();
+  process();  // Process entity-specific tasks
+  entityMessageManager->checkAndSendState();
 }

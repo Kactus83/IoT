@@ -7,22 +7,23 @@ class EntityState {
 protected:
   bool enabled;
   bool hasBeenUpdated;
+  void setHasBeenUpdated(bool hasBeenUpdated) { this->hasBeenUpdated = hasBeenUpdated; }
 
 public:
   EntityState(bool enabled = true, bool hasBeenUpdated = false) 
     : enabled(enabled), hasBeenUpdated(hasBeenUpdated) {}
 
   virtual void populateJson(JsonObject& json) { json["enabled"] = enabled; }
-  void updateFromJson(const JsonObject& json) {
+  virtual void updateFromJson(const JsonObject& json) {
+    Serial.println("Abstract UpdateFromJson called !!");
     if(json.containsKey("enabled")) {
       enabled = json["enabled"];
     }
-    setHasBeenUpdated(true);
   }
   bool isEnabled() { return enabled; }
   void setEnabled(bool enabled) { this->enabled = enabled; }
   bool shoudBeSent() { return hasBeenUpdated; }
-  void setHasBeenUpdated(bool hasBeenUpdated) { this->hasBeenUpdated = hasBeenUpdated; }
+  void resetHasBeenUpdated() { this->hasBeenUpdated = false; }
 };
 
 #endif // ENTITYSTATE_H
