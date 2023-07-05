@@ -15,7 +15,6 @@ public:
 
   virtual void populateJson(JsonObject& json) { json["enabled"] = enabled; }
   virtual void updateFromJson(const JsonObject& json) {
-    Serial.println("Abstract UpdateFromJson called !!");
     if(json.containsKey("enabled")) {
       enabled = json["enabled"];
     }
