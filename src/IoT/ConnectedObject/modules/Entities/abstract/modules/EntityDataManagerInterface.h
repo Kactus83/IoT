@@ -7,7 +7,9 @@ class EntityDataManagerInterface {
 public:
     virtual ~EntityDataManagerInterface() {}
 
-    // Add your methods here
+    virtual void setupEntityForHomeAssistant() = 0;
+    virtual void sendState() = 0;
+    virtual void handleIncomingMessage(const String& message) = 0;
 };
 
 #endif // ENTITYDATAMANAGERINTERFACE_H

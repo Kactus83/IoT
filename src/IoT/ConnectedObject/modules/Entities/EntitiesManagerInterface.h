@@ -10,7 +10,7 @@ public:
 
     virtual void setupEntities() = 0;
     virtual void handleHomeAssistantConnectionInterruption() = 0;
-    virtual void handleMQTTMessage(const String& topic, const String& message) = 0;
+    virtual void handleMQTTMessage(const String& message, const String& unique_id) = 0;
     virtual void entitiesLoop() = 0;
 };
 

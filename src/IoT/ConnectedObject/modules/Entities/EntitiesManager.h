@@ -23,7 +23,7 @@ public:
         }
     }
 
-    void handleMQTTMessage(const String& topic, const String& message) override {
+    void handleMQTTMessage(const String& message, const String& unique_id) override {
     // Method left unimplemented as per your request
     }
 

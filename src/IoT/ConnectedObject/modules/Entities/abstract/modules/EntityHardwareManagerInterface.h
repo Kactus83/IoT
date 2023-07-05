@@ -7,7 +7,8 @@ class EntityHardwareManagerInterface {
 public:
     virtual ~EntityHardwareManagerInterface() {}
 
-    // Add your methods here
+    virtual void initHardware() = 0;
+    virtual void processHardwareLoop() = 0;
 };
 
 #endif // ENTITYHARDWAREMANAGERINTERFACE_H

@@ -6,8 +6,6 @@
 struct EntityInfo {
     String type;
     String unique_id;
-    String MQTT_PostTopic;
-    String MQTT_GetTopic;
 };
 
 #endif // ENTITYINFO_H
