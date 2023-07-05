@@ -4,13 +4,12 @@
 #include <Arduino.h>
 #include "EntitiesManagerInterface.h"
 #include "./abstract/GenericEntityInterface.h"
-
-#define MAX_ENTITIES 10 // Maximum number of entities
+#include "../Config/DTO/DeviceConfig.h"
 
 class EntitiesManager : public EntitiesManagerInterface {
 public:
-    EntitiesManager()
-    : entityCount(0) {}
+    EntitiesManager(const DeviceConfig& config)
+    : maxEntities(config.MAX_ENTITIES), entityCount(0) {}
 
     void setupEntities() override {
         for(int i = 0; i < entityCount; i++){
@@ -35,7 +34,7 @@ public:
     }
 
     bool addEntity(GenericEntityInterface* entity){
-        if(entityCount < MAX_ENTITIES){
+        if(entityCount < maxEntities){
             entities[entityCount] = entity;
             entityCount++;
             return true;
@@ -45,8 +44,9 @@ public:
     }
 
 private:
-    GenericEntityInterface* entities[MAX_ENTITIES];
+    GenericEntityInterface* entities[maxEntities];
     int entityCount;
+    int maxEntities;
 };
 
 #endif // ENTITIESMANAGER_H

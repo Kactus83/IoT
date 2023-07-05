@@ -8,10 +8,10 @@
 class ConfigManager {
 public:
     ConfigManager(const FactorySettings& factorySettings)
-        : deviceConfig({factorySettings.INTEGRATION_NAME, factorySettings.DEVICE_NAME, factorySettings.UNIQUE_ID}),
+        : deviceConfig({factorySettings.INTEGRATION_NAME, factorySettings.MAX_ENTITIES, factorySettings.DEVICE_NAME, factorySettings.UNIQUE_ID}),
         connectivityConfig({
             {factorySettings.WIFI_SSID, factorySettings.WIFI_PASSWORD},
-            {factorySettings.DEVICE_NAME + "_" + factorySettings.UNIQUE_ID, factorySettings.MQTT_SERVER, factorySettings.MQTT_PORT, factorySettings.MQTT_USERNAME, factorySettings.MQTT_PASSWORD, factorySettings.MAX_TOPIC}
+            {factorySettings.DEVICE_NAME + "_" + factorySettings.UNIQUE_ID, factorySettings.MQTT_SERVER, factorySettings.MQTT_PORT, factorySettings.MQTT_USERNAME, factorySettings.MQTT_PASSWORD}
         }) {}
 
 

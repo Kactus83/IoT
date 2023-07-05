@@ -5,6 +5,7 @@
 
 struct DeviceConfig {
     String INTEGRATION_NAME;
+    int MAX_ENTITIES;
     String DEVICE_NAME;
     String UNIQUE_ID;
 };

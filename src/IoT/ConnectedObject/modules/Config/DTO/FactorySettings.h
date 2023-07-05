@@ -8,12 +8,12 @@ struct FactorySettings {
     int MQTT_PORT;
     String MQTT_USERNAME;
     String MQTT_PASSWORD;
-    int MAX_TOPIC;
 
     String WIFI_SSID;
     String WIFI_PASSWORD;
 
     String INTEGRATION_NAME;
+    int MAX_ENTITIES;
     String DEVICE_NAME;
     String UNIQUE_ID;
 };
