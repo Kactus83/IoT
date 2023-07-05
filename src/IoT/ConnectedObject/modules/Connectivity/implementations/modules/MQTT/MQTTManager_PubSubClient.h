@@ -4,11 +4,11 @@
 
 class MQTTManager_PubSubClient : public MQTTManager {
 public:
-    MQTTManager_PubSubClient(const MQTTConfig& mqttConfig)
-    : MQTTManager(mqttConfig) {
+    MQTTManager_PubSubClient(const MQTTConfig& mqttConfig, MessagesManagerInterface& messagesManager)
+    : MQTTManager(mqttConfig, messagesManager) {
         pubSubClient.setServer(mqttConfig.SERVER.c_str(), mqttConfig.PORT);
         pubSubClient.setCallback(staticCallback);
-        instance = this;  
+        instance = this;
     }
 
 protected:
@@ -38,10 +38,6 @@ protected:
 
     void sendMessageToBroker(const String& topic, const String& message) override {
         pubSubClient.publish(topic.c_str(), message.c_str());
-    }
-
-    void handleMQTTMessage(const String& topic, const String& message) override {
-        // Code to handle incoming MQTT messages.
     }
 };
    

@@ -1,4 +1,3 @@
-
 #ifndef MESSAGESMANAGERINTERFACE_H
 #define MESSAGESMANAGERINTERFACE_H
 
@@ -7,9 +6,11 @@
 class MessagesManagerInterface {
 public:
     virtual ~MessagesManagerInterface() {}
-    virtual void handleIncomingMessage(const String& topic, const String& message) = 0;
-    virtual void sendMessage(const String& topic, const String& message) = 0;
+
+    virtual void handleIncomingMQTTMessage(const String& topic, const String& message) = 0;
+    virtual void sendMQTTMessage(const String& topic, const String& message) = 0;
     virtual void subscribeToTopic(const String& topic) = 0;
+    virtual void handleHomeAssistantConnectionInterruption() = 0;  
 };
 
 #endif

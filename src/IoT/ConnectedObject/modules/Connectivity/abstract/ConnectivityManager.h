@@ -10,46 +10,49 @@
 
 class ConnectivityManager : public ConnectivityManagerInterface {
 public:
-    ConnectivityManager(WiFiManagerInterface* wifiManager, MQTTManagerInterface* mqttManager, MessagesManagerInterface* messagesManager, ConnectivityConfig* connectivityConfig)
+    ConnectivityManager(WiFiManagerInterface& wifiManager, MQTTManagerInterface& mqttManager, MessagesManagerInterface& messagesManager, ConnectivityConfig& connectivityConfig)
     : wifiManager(wifiManager), mqttManager(mqttManager), messagesManager(messagesManager), connectivityConfig(connectivityConfig) {}
 
     void connectHomeAssistant() override {
-        wifiManager->connect();
-        if(wifiManager->isConnected()){
-            mqttManager->connect(wifiManager->getClient());
+        wifiManager.connect();
+        if(wifiManager.isConnected()){
+            mqttManager.connect(wifiManager.getClient());
         }
     }
 
     void updateHomeAssistantConnection() override {
         checkHomeAssistantConnectionAndReconnect();
-        mqttManager->update();
+        mqttManager.update();
     }
 
     void subscribeToMQTTTopic(const String& topic) override {
-        if(wifiManager->isConnected() && mqttManager->isConnected()){
-            mqttManager->subscribeToTopic(topic);
+        if(wifiManager.isConnected() && mqttManager.isConnected()){
+            mqttManager.subscribeToTopic(topic);
         }
     }
 
     void sendMQTTMessage(const String& topic, const String& message) override {
-        if(wifiManager->isConnected() && mqttManager->isConnected()){
-            mqttManager->sendMessage(topic, message);
+        if(wifiManager.isConnected() && mqttManager.isConnected()){
+            mqttManager.sendMessage(topic, message);
         }
     }
 
 private:
-    WiFiManagerInterface* wifiManager;
-    MQTTManagerInterface* mqttManager;
-    MessagesManagerInterface* messagesManager;
-    ConnectivityConfig* connectivityConfig;
+    WiFiManagerInterface& wifiManager;
+    MQTTManagerInterface& mqttManager;
+    MessagesManagerInterface& messagesManager;
+    ConnectivityConfig& connectivityConfig;
 
     void checkHomeAssistantConnectionAndReconnect() {
-        while(!wifiManager->isConnected() || !mqttManager->isConnected()){
-            if(!wifiManager->isConnected()){
-                wifiManager->connect();
+        while(!wifiManager.isConnected() || !mqttManager.isConnected()){
+            if(!wifiManager.isConnected()){
+                wifiManager.connect();
             }
-            if(wifiManager->isConnected() && !mqttManager->isConnected()){
-                mqttManager->connect(wifiManager->getClient());
+            if(wifiManager.isConnected() && !mqttManager.isConnected()){
+                mqttManager.connect(wifiManager.getClient());
+            }
+            if(!wifiManager.isConnected() || !mqttManager.isConnected()){
+                messagesManager.handleHomeAssistantConnectionInterruption();
             }
         }
     }

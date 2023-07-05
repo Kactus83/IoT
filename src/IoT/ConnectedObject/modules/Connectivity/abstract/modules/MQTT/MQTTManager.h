@@ -4,11 +4,12 @@
 #include <Arduino.h>
 #include "MQTTManagerInterface.h"
 #include "../../../../Config/DTO/MQTTConfig.h"
+#include "../../../../Messages/MessagesManagerInterface.h"
 
 class MQTTManager : public MQTTManagerInterface {
 public:
-    MQTTManager(const MQTTConfig& mqttConfig)
-    : mqttConfig(mqttConfig) {}
+    MQTTManager(const MQTTConfig& mqttConfig, MessagesManagerInterface& messagesManager)
+    : mqttConfig(mqttConfig), messagesManager(messagesManager) {}
 
     void connect(void* client) override {
         if (!isConnected()) {
@@ -32,8 +33,14 @@ public:
         sendMessageToBroker(topic, message);
     }
 
+    virtual void handleMQTTMessage(const String& topic, const String& message) {
+        messagesManager.handleIncomingMQTTMessage(topic, message);
+    }
+
+
 protected:
     MQTTConfig mqttConfig;
+    MessagesManagerInterface& messagesManager;
 
     virtual void connectToBroker(void* client) = 0;
     virtual bool isConnectedToBroker() = 0;
