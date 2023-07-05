@@ -21,7 +21,7 @@ public:
         return isConnectedToWiFi();
     }
 
-    WiFiClientInterface* getClient() override {
+    void* getClient() override {
         // This function should be implemented by subclasses.
         return getWiFiClient();
     }
@@ -31,7 +31,7 @@ protected:
 
     virtual void connectToWiFi() = 0;
     virtual bool isConnectedToWiFi() = 0;
-    virtual WiFiClientInterface* getWiFiClient() = 0;
+    virtual void* getWiFiClient() = 0;
 };
 
 #endif

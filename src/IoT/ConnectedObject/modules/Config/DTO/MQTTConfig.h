@@ -4,6 +4,7 @@
 #include <Arduino.h>
 
 struct MQTTConfig {
+    String CLIENT_ID;
     String SERVER;
     int PORT;
     String USERNAME;
