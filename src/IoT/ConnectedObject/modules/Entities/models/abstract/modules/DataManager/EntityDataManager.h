@@ -5,7 +5,7 @@
 #include "../../DTO/EntityInfo.h"
 #include "../../DTO/GenericEntityState.h"
 #include "../../DTO/SpecificEntityState.h"
-#include "../../../../Messages/MessagesManagerInterface.h"
+#include "../../../../../Messages/MessagesManagerInterface.h"
 #include "./EntityDataManagerInterface.h"
 #include <ArduinoJson.h>
 

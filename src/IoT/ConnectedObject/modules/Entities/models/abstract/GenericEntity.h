@@ -8,7 +8,7 @@
 #include "./modules/DataManager/EntityDataManagerInterface.h"
 #include "./modules/EntityHardwareManagerInterface.h"
 #include "./GenericEntityInterface.h"
-#include "../../Messages/MessagesManagerInterface.h"
+#include "../../../Messages/MessagesManagerInterface.h"
 
 class GenericEntity : public GenericEntityInterface {
 public:

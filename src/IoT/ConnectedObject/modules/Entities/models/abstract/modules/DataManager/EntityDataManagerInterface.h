@@ -2,7 +2,7 @@
 #define ENTITYDATAMANAGERINTERFACE_H
 
 #include <Arduino.h>
-#include "../../../../Messages/MessagesManagerInterface.h"
+#include "../../../../../Messages/MessagesManagerInterface.h"
 
 class EntityDataManagerInterface {
 public:
