@@ -8,15 +8,19 @@
 #include "./modules/EntityDataManagerInterface.h"
 #include "./modules/EntityHardwareManagerInterface.h"
 #include "./GenericEntityInterface.h"
+#include "../../Messages/MessagesManagerInterface.h"
 
 class GenericEntity : public GenericEntityInterface {
 public:
-    GenericEntity(EntityInfo& info, GenericEntityState& genericState, SpecificEntityState* specificState, EntityDataManagerInterface& dataManager, EntityHardwareManagerInterface& hardwareManager)
-        : info(info), genericState(genericState), specificState(specificState), dataManager(dataManager), hardwareManager(hardwareManager) {}
+    GenericEntity(EntityInfo& info, GenericEntityState& genericState, SpecificEntityState* specificState, EntityDataManagerInterface& dataManager, EntityHardwareManagerInterface& hardwareManager, MessagesManagerInterface& messagesManager)
+        : info(info), genericState(genericState), specificState(specificState), dataManager(dataManager), hardwareManager(hardwareManager), messagesManager(messagesManager) {}
     
     virtual ~GenericEntity() {}
 
-    virtual void setup() override = 0;
+    virtual void setup() override {
+        messagesManager.subscribeToMQTTTopic(info.setTopic);
+    }
+
     virtual void reconnect() override = 0;
     virtual void loop() override = 0;
     virtual void handleMQTTMessage(const String& topic, const String& message) override = 0;
@@ -26,6 +30,7 @@ public:
 protected:
     EntityDataManagerInterface& dataManager;
     EntityHardwareManagerInterface& hardwareManager;
+    MessagesManagerInterface& messagesManager;
 
 private:
     EntityInfo& info;

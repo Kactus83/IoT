@@ -6,6 +6,9 @@
 struct EntityInfo {
     String type;
     String unique_id;
+    String discoveryTopic;
+    String getTopic;
+    String setTopic;
 };
 
 #endif // ENTITYINFO_H

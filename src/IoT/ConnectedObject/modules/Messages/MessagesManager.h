@@ -4,22 +4,32 @@
 #include <Arduino.h>
 #include "MessagesManagerInterface.h"
 #include "../Connectivity/abstract/ConnectivityManagerInterface.h"
+#include "../Entities/EntitiesManagerInterface.h"
 
 class MessagesManager : public MessagesManagerInterface {
 public:
-    MessagesManager(ConnectivityManagerInterface* connectivityManager)
-    : connectivityManager(connectivityManager) {}
+    MessagesManager(ConnectivityManagerInterface& connectivityManager, EntitiesManagerInterface& entitiesManager)
+    : connectivityManager(connectivityManager), entitiesManager(entitiesManager) {}
 
-    void handleIncomingMQTTMessage(const String& topic, const String& message) override;
+    void handleIncomingMQTTMessage(const String& topic, const String& message) override {
+        entitiesManager.handleMQTTMessage(topic, message);
+    }
+
     void sendMQTTMessage(const String& topic, const String& message) override {
-        connectivityManager->sendMQTTMessage(topic, message);
+        connectivityManager.sendMQTTMessage(topic, message);
     }
+
     void subscribeToMQTTTopic(const String& topic) override {
-        connectivityManager->subscribeToMQTTTopic(topic);
+        connectivityManager.subscribeToMQTTTopic(topic);
     }
+
+    void handleHomeAssistantConnectionInterruption() override {
+        entitiesManager.handleHomeAssistantConnectionInterruption();
+    }  
 
 private:
-    ConnectivityManagerInterface* connectivityManager;
+    ConnectivityManagerInterface& connectivityManager;
+    EntitiesManagerInterface& entitiesManager;
 };
 
-#endif
+#endif // MESSAGESMANAGER_H
