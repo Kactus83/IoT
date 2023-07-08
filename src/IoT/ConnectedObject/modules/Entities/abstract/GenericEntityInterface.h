@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "./DTO/EntityInfo.h"
-#include "./modules/EntityDataManagerInterface.h"
+#include "./modules/DataManager/EntityDataManagerInterface.h"
 #include "./modules/EntityHardwareManagerInterface.h"
 
 class GenericEntityInterface {

@@ -5,7 +5,7 @@
 #include "./DTO/EntityInfo.h"
 #include "./DTO/GenericEntityState.h"
 #include "./DTO/SpecificEntityState.h"
-#include "./modules/EntityDataManagerInterface.h"
+#include "./modules/DataManager/EntityDataManagerInterface.h"
 #include "./modules/EntityHardwareManagerInterface.h"
 #include "./GenericEntityInterface.h"
 #include "../../Messages/MessagesManagerInterface.h"
@@ -18,12 +18,23 @@ public:
     virtual ~GenericEntity() {}
 
     virtual void setup() override {
-        messagesManager.subscribeToMQTTTopic(info.setTopic);
+        hardwareManager.initHardware();
+        dataManager.setupEntityForHomeAssistant();
     }
 
-    virtual void reconnect() override = 0;
-    virtual void loop() override = 0;
-    virtual void handleMQTTMessage(const String& topic, const String& message) override = 0;
+    virtual void reconnect() override {
+        loop();
+        dataManager.sendState();
+    };
+
+    virtual void loop() override {
+        hardwareManager.processHardwareLoop();
+        dataManager.sendState();
+    };
+
+    virtual void handleMQTTMessage(const String& topic, const String& message) override {
+        dataManager.handleIncomingMessage(message);
+    }
 
     EntityInfo info;
 
