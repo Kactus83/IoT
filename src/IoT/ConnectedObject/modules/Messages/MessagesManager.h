@@ -8,28 +8,37 @@
 
 class MessagesManager : public MessagesManagerInterface {
 public:
-    MessagesManager(ConnectivityManagerInterface& connectivityManager, EntitiesManagerInterface& entitiesManager)
-    : connectivityManager(connectivityManager), entitiesManager(entitiesManager) {}
+    MessagesManager() 
+    : connectivityManager(nullptr), entitiesManager(nullptr) {}
+
+    void initializeModuleReferences(ConnectivityManagerInterface& connectivityManagerRef, EntitiesManagerInterface& entitiesManagerRef) {
+        connectivityManager = &connectivityManagerRef;
+        entitiesManager = &entitiesManagerRef;
+    }
 
     void handleIncomingMQTTMessage(const String& topic, const String& message) override {
-        entitiesManager.handleMQTTMessage(topic, message);
+        if(entitiesManager)
+            entitiesManager->handleMQTTMessage(topic, message);
     }
 
     void sendMQTTMessage(const String& topic, const String& message) override {
-        connectivityManager.sendMQTTMessage(topic, message);
+        if(connectivityManager)
+            connectivityManager->sendMQTTMessage(topic, message);
     }
 
     void subscribeToMQTTTopic(const String& topic) override {
-        connectivityManager.subscribeToMQTTTopic(topic);
+        if(connectivityManager)
+            connectivityManager->subscribeToMQTTTopic(topic);
     }
 
     void handleHomeAssistantConnectionInterruption() override {
-        entitiesManager.handleHomeAssistantConnectionInterruption();
+        if(entitiesManager)
+            entitiesManager->handleHomeAssistantConnectionInterruption();
     }  
 
 private:
-    ConnectivityManagerInterface& connectivityManager;
-    EntitiesManagerInterface& entitiesManager;
+    ConnectivityManagerInterface* connectivityManager;
+    EntitiesManagerInterface* entitiesManager;
 };
 
 #endif // MESSAGESMANAGER_H

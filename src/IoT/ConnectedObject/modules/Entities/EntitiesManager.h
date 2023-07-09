@@ -11,7 +11,13 @@
 class EntitiesManager : public EntitiesManagerInterface, public EntityFactory {
 public:
     EntitiesManager(const DeviceConfig& config, MessagesManagerInterface& messagesManager)
-    : EntityFactory(config, messagesManager), maxEntities(config.MAX_ENTITIES), entityCount(0) {}
+    : EntityFactory(config, messagesManager), maxEntities(config.MAX_ENTITIES), entityCount(0) {
+        entities = new GenericEntityInterface*[maxEntities]; 
+    }
+
+    ~EntitiesManager() {
+        delete[] entities;
+    }
 
     void setupEntities() override {
         for(int entityIndex = 0; entityIndex < entityCount; entityIndex++){
@@ -40,16 +46,16 @@ public:
     }
     
     void addEntity(EntitySettings& settings) {
-    if (entityCount < maxEntities) {
-        GenericEntityInterface* newEntity = createEntity(settings);
-        if(newEntity != nullptr){
-            entities[entityCount++] = newEntity;
+        if (entityCount < maxEntities) {
+            GenericEntityInterface* newEntity = createEntity(settings);
+            if(newEntity != nullptr){
+                entities[entityCount++] = newEntity;
+            }
         }
     }
-}
 
 private:
-    GenericEntityInterface* entities[maxEntities];
+    GenericEntityInterface** entities;
     int entityCount;
     int maxEntities;
 };

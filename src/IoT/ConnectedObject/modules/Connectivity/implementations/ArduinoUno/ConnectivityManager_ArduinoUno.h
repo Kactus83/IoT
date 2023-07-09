@@ -7,10 +7,10 @@
 #include "../modules/MQTT/MQTTManager_PubSubClient.h"
 #include "../../../Messages/MessagesManagerInterface.h"
 
-class ConnectivityManager_ArduinoUno : public ConnectivityManager {
+class ConnectivityManager_ArduinoUno : public ConnectivityManager<WiFiManager_WiFiNina, MQTTManager_PubSubClient> {
 public:
     ConnectivityManager_ArduinoUno(MessagesManagerInterface& messagesManager, ConnectivityConfig& connectivityConfig)
-    : ConnectivityManager(*(new WiFiManager_WiFiNina(connectivityConfig.wifiConfig)), *(new MQTTManager_PubSubClient(connectivityConfig.mqttConfig, messagesManager)), messagesManager, connectivityConfig) {}
+    : ConnectivityManager<WiFiManager_WiFiNina, MQTTManager_PubSubClient>(*(new WiFiManager_WiFiNina(connectivityConfig.wifiConfig)), *(new MQTTManager_PubSubClient(connectivityConfig.mqttConfig, messagesManager)), messagesManager, connectivityConfig) {}
 };
 
 #endif

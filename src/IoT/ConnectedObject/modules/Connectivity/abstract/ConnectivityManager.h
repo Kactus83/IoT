@@ -3,14 +3,13 @@
 
 #include <Arduino.h>
 #include "ConnectivityManagerInterface.h"
-#include "./modules/WiFi/WiFiManagerInterface.h"
-#include "./modules/MQTT/MQTTManagerInterface.h"
 #include "../../Messages/MessagesManagerInterface.h"
 #include "../../Config/DTO/ConnectivityConfig.h"
 
+template <typename TWiFiManager, typename TMQTTManager>
 class ConnectivityManager : public ConnectivityManagerInterface {
 public:
-    ConnectivityManager(WiFiManagerInterface& wifiManager, MQTTManagerInterface& mqttManager, MessagesManagerInterface& messagesManager, ConnectivityConfig& connectivityConfig)
+    ConnectivityManager(TWiFiManager& wifiManager, TMQTTManager& mqttManager, MessagesManagerInterface& messagesManager, ConnectivityConfig& connectivityConfig)
     : wifiManager(wifiManager), mqttManager(mqttManager), messagesManager(messagesManager), connectivityConfig(connectivityConfig) {}
 
     void connectHomeAssistant() override {
@@ -38,8 +37,8 @@ public:
     }
 
 private:
-    WiFiManagerInterface& wifiManager;
-    MQTTManagerInterface& mqttManager;
+    TWiFiManager& wifiManager;
+    TMQTTManager& mqttManager;
     MessagesManagerInterface& messagesManager;
     ConnectivityConfig& connectivityConfig;
 
