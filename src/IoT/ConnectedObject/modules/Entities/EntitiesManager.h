@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "EntitiesManagerInterface.h"
 #include "./EntityFactory.h"
-#include "./abstract/GenericEntityInterface.h"
+#include "./models/abstract/GenericEntityInterface.h"
 #include "../Messages/MessagesManagerInterface.h"
 #include "../Config/DTO/DeviceConfig.h"
 
@@ -38,17 +38,15 @@ public:
             entities[entityIndex]->loop();
         }
     }
-
-    bool addEntity(GenericEntityInterface* entity){
-        if(entityCount < maxEntities){
-            setupEntityTopics(*entity);
-            entities[entityCount] = entity;
-            entityCount++;
-            return true;
-        } else {
-            return false;
+    
+    void addEntity(EntitySettings& settings) {
+    if (entityCount < maxEntities) {
+        GenericEntityInterface* newEntity = createEntity(settings);
+        if(newEntity != nullptr){
+            entities[entityCount++] = newEntity;
         }
     }
+}
 
 private:
     GenericEntityInterface* entities[maxEntities];

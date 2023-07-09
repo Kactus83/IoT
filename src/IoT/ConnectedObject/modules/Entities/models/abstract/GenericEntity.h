@@ -10,11 +10,15 @@
 #include "./GenericEntityInterface.h"
 #include "../../../Messages/MessagesManagerInterface.h"
 
+template<class HardwareManager, class SpecificState>
+
 class GenericEntity : public GenericEntityInterface {
 public:
-    GenericEntity(EntityInfo& info, GenericEntityState& genericState, SpecificEntityState* specificState, EntityDataManagerInterface& dataManager, EntityHardwareManagerInterface& hardwareManager, MessagesManagerInterface& messagesManager)
-        : info(info), genericState(genericState), specificState(specificState), dataManager(dataManager), hardwareManager(hardwareManager), messagesManager(messagesManager) {}
-    
+    GenericEntity(EntityInfo& info, MessagesManagerInterface& messagesManager)
+        : info(info), genericState(), dataManager(info), messagesManager(messagesManager), hardwareManager(), specificState() {
+            genericState.enabled = true;
+        }
+
     virtual ~GenericEntity() {}
 
     virtual void setup() override {
@@ -25,12 +29,12 @@ public:
     virtual void reconnect() override {
         loop();
         dataManager.sendState();
-    };
+    }
 
     virtual void loop() override {
         hardwareManager.processHardwareLoop();
         dataManager.sendState();
-    };
+    }
 
     virtual void handleMQTTMessage(const String& topic, const String& message) override {
         dataManager.handleIncomingMessage(message);
@@ -38,15 +42,13 @@ public:
 
     EntityInfo info;
 
-protected:
-    EntityDataManagerInterface& dataManager;
-    EntityHardwareManagerInterface& hardwareManager;
-    MessagesManagerInterface& messagesManager;
-
 private:
     EntityInfo& info;
-    GenericEntityState& genericState;
-    SpecificEntityState* specificState;
+    GenericEntityState genericState;
+    SpecificState specificState;
+    EntityDataManagerInterface dataManager;
+    MessagesManagerInterface& messagesManager;
+    HardwareManager hardwareManager;
 };
 
 #endif // GENERICENTITY_H

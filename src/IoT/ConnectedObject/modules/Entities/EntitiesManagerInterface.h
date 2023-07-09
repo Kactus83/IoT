@@ -1,7 +1,7 @@
 #ifndef ENTITIESMANAGERINTERFACE_H
 #define ENTITIESMANAGERINTERFACE_H
 
-#include "./abstract/GenericEntityInterface.h"
+#include "./models/abstract/GenericEntityInterface.h"
 #include <Arduino.h>
 
 class EntitiesManagerInterface {
