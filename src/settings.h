@@ -5,18 +5,16 @@
 #include "./IoT/ConnectedObject/modules/Config/DTO/FactorySettings.h"
 
 FactorySettings factorySettings = {
-    .MQTT_SERVER = "192.168.1.98",
-    .MQTT_PORT = 1883,
-    .MQTT_USERNAME = "MQTT",
-    .MQTT_PASSWORD = "MQTT_mqtt_2023!",
-    .MAX_TOPIC = 10,
-
-    .WIFI_SSID = "24ghz",
-    .WIFI_PASSWORD = "PsLyzNnnMBGAcS1jql4H",
-
-    .INTEGRATION_NAME = "flo_perso",
-    .DEVICE_NAME = "test_device",
-    .UNIQUE_ID = "unic_id",
+    "192.168.1.98", // MQTT_SERVER
+    1883, // MQTT_PORT
+    "MQTT", // MQTT_USERNAME
+    "MQTT_mqtt_2023!", // MQTT_PASSWORD
+    "24ghz", // WIFI_SSID
+    "PsLyzNnnMBGAcS1jql4H", // WIFI_PASSWORD
+    "flo_perso", // INTEGRATION_NAME
+    10, // MAX_ENTITIES
+    "test_device", // DEVICE_NAME
+    "unic_id" // UNIQUE_ID
 };
 
 #endif // SETTINGS_H
