@@ -15,12 +15,17 @@ public:
     : factorySettings(settings) {
         // Initialize managers with the right configurations
         configManager = new T_ConfigManager(settings);
-        connectivityManager = new T_ConnectivityManager(configManager->getConnectivityConfig());
-        entitiesManager = new T_EntitiesManager(configManager->getDeviceConfig());
         messagesManager = new T_MessagesManager();
 
+        // Creation of necessary objects before passing to the constructors
+        ConnectivityConfig connectivityConfig = configManager->getConnectivityConfig();
+        DeviceConfig deviceConfig = configManager->getDeviceConfig();
+
+        connectivityManager = new T_ConnectivityManager(*messagesManager, connectivityConfig);
+        entitiesManager = new T_EntitiesManager(deviceConfig, *messagesManager);
+
         // Initialize messagesManager after other managers have been created
-        messagesManager->initialize(*connectivityManager, *entitiesManager);
+        messagesManager->initializeModuleReferences(*connectivityManager, *entitiesManager);
     }
 
     virtual ~ConnectedObject() {

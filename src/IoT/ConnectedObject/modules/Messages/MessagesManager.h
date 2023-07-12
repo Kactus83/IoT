@@ -3,8 +3,6 @@
 
 #include <Arduino.h>
 #include "MessagesManagerInterface.h"
-#include "../Connectivity/abstract/ConnectivityManagerInterface.h"
-#include "../Entities/EntitiesManagerInterface.h"
 
 class MessagesManager : public MessagesManagerInterface {
 public:

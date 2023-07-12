@@ -1,6 +1,8 @@
 #ifndef MESSAGESMANAGERINTERFACE_H
 #define MESSAGESMANAGERINTERFACE_H
 
+#include "../Connectivity/abstract/ConnectivityManagerInterface.h"
+#include "../Entities/EntitiesManagerInterface.h"
 #include <Arduino.h>
 
 class MessagesManagerInterface {

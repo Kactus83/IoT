@@ -33,10 +33,6 @@ public:
         sendMessageToBroker(topic, message);
     }
 
-    virtual void handleMQTTMessage(const String& topic, const String& message) {
-        messagesManager.handleIncomingMQTTMessage(topic, message);
-    }
-
 
 protected:
     MQTTConfig mqttConfig;
@@ -47,7 +43,10 @@ protected:
     virtual void updateBroker() = 0;
     virtual void subscribeToBrokerTopic(const String& topic) = 0;
     virtual void sendMessageToBroker(const String& topic, const String& message) = 0;
-    virtual void handleMQTTMessage(const String& topic, const String& message) = 0;
+
+    virtual void handleMQTTMessage(const String& topic, const String& message) {
+        messagesManager.handleIncomingMQTTMessage(topic, message);
+    }
 };
 
 #endif
