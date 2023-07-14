@@ -1,20 +1,16 @@
-// IoT.cpp
 #include "settings.h"
-#include "./IoT/ConnectedObject/modules/Config/ConfigManager.h"
-#include "./IoT/ConnectedObject/modules/Messages/MessagesManager.h"
+#include "IoT/modules/Config/ConfigManager.h"
+#include "IoT/modules/Entities/EntitiesManager.h"
+#include "IoT/modules/Connectivity/implementations/ArduinoUno/ConnectivityManager_ArduinoUno.h"
 
-// Initialize the ConfigManager and MessagesManager
 ConfigManager configManager(factorySettings);
-MessagesManager messagesManager;
+EntitiesManager entitiesManager(configManager.getDeviceConfig());
+ConnectivityManager_ArduinoUno connectivityManager(entitiesManager, configManager.getConnectivityConfig());
 
 void setup() {
-    // Perform setup activities
-    // Note: Your managers may require some setup steps.
-    // If that's the case, you should add the necessary function calls here.
+    // Connect to Home Assistant
+    connectivityManager.connectHomeAssistant();
 }
 
 void loop() {
-    // Main loop
-    // Note: Your managers may require some loop steps.
-    // If that's the case, you should add the necessary function calls here.
 }

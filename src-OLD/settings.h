@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <Arduino.h>
-#include "./IoT/modules/Config/DTO/FactorySettings.h"
+#include "./IoT/ConnectedObject/modules/Config/DTO/FactorySettings.h"
 
 FactorySettings factorySettings = {
     "192.168.1.98", // MQTT_SERVER
