@@ -8,7 +8,7 @@
 
  class WS12_RGB_LED_HardwareManager : public Abstract_EntityHardwareManager<WS12_RGB_LED_SpecificEntityState, WS12_RGB_LED_Settings> {
  public:
-     WS12_RGB_LED_HardwareManager(WS12_RGB_LED_SpecificEntityState& state, WS12_RGB_LED_Settings& settings)
+     WS12_RGB_LED_HardwareManager(WS12_RGB_LED_SpecificEntityState& state, const WS12_RGB_LED_Settings& settings)
          : Abstract_EntityHardwareManager<WS12_RGB_LED_SpecificEntityState, WS12_RGB_LED_Settings>(state, settings) {}
 
      virtual void initHardware() override {

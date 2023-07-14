@@ -8,7 +8,7 @@
 template<class SpecificEntityState, class EntitySettings>
 class Abstract_EntityHardwareManager {
 public:
-    Abstract_EntityHardwareManager(SpecificEntityState& state, EntitySettings& settings)
+    Abstract_EntityHardwareManager(SpecificEntityState& state, const EntitySettings& settings)
         : state(state), settings(settings) {}
 
     virtual ~Abstract_EntityHardwareManager() {}
@@ -18,7 +18,7 @@ public:
 
 protected:
     SpecificEntityState& state;
-    EntitySettings& settings;
+    const EntitySettings& settings;
 };
 
 #endif // ABSTRACT_ENTITYHARDWAREMANAGER_H

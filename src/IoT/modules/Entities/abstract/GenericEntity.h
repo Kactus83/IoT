@@ -14,7 +14,7 @@ template<class HardwareManager, class SpecificState, class EntitySettings>
 
 class GenericEntity : public GenericEntityInterface {
 public:
-    GenericEntity(EntityInfo& info, EntitySettings& settings, MQTTMessagesManagerInterface& messagesManager)
+    GenericEntity(EntityInfo& info, const EntitySettings& settings, MQTTMessagesManagerInterface& messagesManager)
         : info(info), settings(settings), genericState(), dataManager(info, genericState, &specificState, messagesManager), hardwareManager(specificState, settings) {
             genericState.enabled = true;
         }
@@ -42,7 +42,7 @@ public:
 
 private:
     EntityInfo& info;
-    EntitySettings& settings;
+    const EntitySettings& settings;
     GenericEntityState genericState;
     SpecificState specificState;
     EntityDataManager dataManager;
