@@ -3,14 +3,34 @@
 #include "IoT/modules/Entities/EntitiesManager.h"
 #include "IoT/modules/Connectivity/implementations/ArduinoUno/ConnectivityManager_ArduinoUno.h"
 
-ConfigManager configManager(factorySettings);
-EntitiesManager entitiesManager(configManager.getDeviceConfig());
-ConnectivityManager_ArduinoUno connectivityManager(entitiesManager, configManager.getConnectivityConfig());
+class IoTController {
+    ConfigManager configManager;
+    EntitiesManager entitiesManager;
+    ConnectivityManager_ArduinoUno connectivityManager;
+
+public:
+    IoTController(const FactorySettings& factorySettings)
+    : configManager(factorySettings),
+      entitiesManager(configManager.getDeviceConfig()),
+      connectivityManager(entitiesManager, configManager.getConnectivityConfig()) {
+        entitiesManager.setMessagesManager(connectivityManager);
+    }
+
+    void setup() {
+        connectivityManager.connectHomeAssistant();
+    }
+
+    void loop() {
+        // You might want to add your own code here.
+    }
+};
+
+IoTController controller(factorySettings);
 
 void setup() {
-    // Connect to Home Assistant
-    connectivityManager.connectHomeAssistant();
+    controller.setup();
 }
 
 void loop() {
+    controller.loop();
 }

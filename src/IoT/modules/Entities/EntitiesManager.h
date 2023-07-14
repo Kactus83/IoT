@@ -7,11 +7,11 @@
 #include "../Config/DTO/DeviceConfig.h"
 #include "./abstract/GenericEntityInterface.h"
 #include "./abstract/DTO/EntitySettings.h"
+#include "../Connectivity/abstract/MQTTMessagesManagerInterface.h"
 
 class EntitiesManager : public EntitiesManagerInterface, public EntityFactory {
 public:
-    EntitiesManager(const DeviceConfig& config)
-    : EntityFactory(config) {
+    EntitiesManager(const DeviceConfig& config) : EntityFactory(config) {
         maxEntities = config.MAX_ENTITIES;
         entities = new GenericEntityInterface*[maxEntities]; 
     }
@@ -31,6 +31,7 @@ public:
 
 private:
     GenericEntityInterface** entities;
+    int maxEntities;
 };
 
 #endif // ENTITIESMANAGER_H
