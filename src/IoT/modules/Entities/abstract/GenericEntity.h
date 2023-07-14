@@ -4,14 +4,13 @@
 #include <Arduino.h>
 #include "./DTO/EntityInfo.h"
 #include "./DTO/GenericEntityState.h"
-#include "./DTO/EntitySettings.h"
 #include "./DTO/SpecificEntityState.h"
 #include "./modules/EntityDataManager.h"
 #include "./modules/Abstract_EntityHardwareManager.h"
 #include "./GenericEntityInterface.h"
 #include "../../Connectivity/abstract/MQTTMessagesManagerInterface.h"
 
-template<class HardwareManager, class SpecificState>
+template<class HardwareManager, class SpecificState, class EntitySettings>
 
 class GenericEntity : public GenericEntityInterface {
 public:

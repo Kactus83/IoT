@@ -5,6 +5,7 @@
 #include "../DTO/SpecificEntityState.h"
 #include "../DTO/EntitySettings.h"
 
+template<class SpecificEntityState, class EntitySettings>
 class Abstract_EntityHardwareManager {
 public:
     Abstract_EntityHardwareManager(SpecificEntityState& state, EntitySettings& settings)
