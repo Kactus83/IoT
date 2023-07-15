@@ -16,7 +16,7 @@ public:
     virtual ~EntityDataManager() {}
 
     virtual void setupEntityForHomeAssistant() {
-        String discoveryMessage = createDiscoveryMessage();
+        const char* discoveryMessage = createDiscoveryMessage();
         messagesManager.sendMQTTMessage(info.discoveryTopic, discoveryMessage);
         messagesManager.subscribeToMQTTTopic(info.setTopic);
     }
@@ -31,11 +31,21 @@ public:
                 doc[kv.key()] = kv.value();
             }
 
-            String output;
-            serializeJson(doc, output);
-            messagesManager.sendMQTTMessage(info.getTopic, output.c_str());
+            // Estimez la taille du document JSON
+            size_t jsonSize = measureJson(doc);
+
+            // Créez un tableau de char assez grand pour le document JSON
+            char* output = new char[jsonSize + 1];  // +1 pour le caractère nul de fin de chaîne
+
+            // Sérialisez le document JSON dans le tableau de char
+            serializeJson(doc, output, jsonSize + 1);
+
+            messagesManager.sendMQTTMessage(info.getTopic, output);
 
             specificState->stateChanged = false;
+
+            // N'oubliez pas de libérer la mémoire une fois que vous avez fini d'utiliser le tableau de char
+            delete[] output;
         }
     }
 
@@ -56,7 +66,7 @@ protected:
     SpecificEntityState* specificState;
     MQTTMessagesManagerInterface& messagesManager;
 
-    String createDiscoveryMessage() {
+    char* createDiscoveryMessage() {
         DynamicJsonDocument doc(1024);
 
         doc["type"] = info.type;
@@ -68,11 +78,18 @@ protected:
             doc[kv.key()] = kv.value();
         }
 
-        String output;
-        serializeJson(doc, output);
+        // Estimer la taille du document JSON
+        size_t jsonSize = measureJson(doc);
 
-        return output.c_str();
+        // Créer un tableau de char assez grand pour le document JSON
+        char* output = new char[jsonSize + 1];  // +1 pour le caractère nul de fin de chaîne
+
+        // Sérialiser le document JSON dans le tableau de char
+        serializeJson(doc, output, jsonSize + 1);
+
+        return output;
     }
+
 };
 
 #endif // ENTITYDATAMANAGER_H
