@@ -26,6 +26,7 @@ public:
     void loop() {
         connectivityManager.updateHomeAssistantConnection();
         entitiesManager.entitiesLoop();
+        delay(100);
     }
 };
 

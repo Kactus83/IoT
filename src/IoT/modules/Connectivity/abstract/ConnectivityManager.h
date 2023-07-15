@@ -26,7 +26,6 @@ public:
     }
 
     void updateHomeAssistantConnection() override {
-        Serial.println("Updating Home Assistant connection...");
         checkHomeAssistantConnectionAndReconnect();
         mqttManager.update();
     }

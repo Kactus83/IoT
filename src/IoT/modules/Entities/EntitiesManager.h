@@ -18,7 +18,11 @@ public:
     void setupEntities() override {
         Serial.println("Setting up entities...");
         for(int entityIndex = 0; entityIndex < entityCount; entityIndex++){
-            entities[entityIndex]->setup();
+            if (entities[entityIndex] == nullptr) {
+                Serial.println("Entity at index " + String(entityIndex) + " is null!");
+            } else {
+                entities[entityIndex]->setup();
+            }
         }
     }
 

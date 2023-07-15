@@ -22,17 +22,21 @@ public:
     }
 
     virtual void sendState() {
-        DynamicJsonDocument doc(1024);
-        doc["enabled"] = state.enabled;
+        if(specificState->stateChanged) {
+            DynamicJsonDocument doc(1024);
+            doc["enabled"] = state.enabled;
 
-        DynamicJsonDocument specificStateDoc = specificState->getState();
-        for(JsonPair kv : specificStateDoc.as<JsonObject>()) {
-            doc[kv.key()] = kv.value();
+            DynamicJsonDocument specificStateDoc = specificState->getState();
+            for(JsonPair kv : specificStateDoc.as<JsonObject>()) {
+                doc[kv.key()] = kv.value();
+            }
+
+            String output;
+            serializeJson(doc, output);
+            messagesManager.sendMQTTMessage(info.getTopic, output);
+
+            specificState->stateChanged = false;
         }
-
-        String output;
-        serializeJson(doc, output);
-        messagesManager.sendMQTTMessage(info.getTopic, output);
     }
 
     virtual void handleIncomingMessage(const String& message) {

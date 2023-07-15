@@ -54,7 +54,6 @@ private:
         if (entityCount >= maxEntities) {
             return false;
         }
-        entityCount++;
         return true;
     }
 

@@ -6,6 +6,8 @@
 
 class SpecificEntityState {
 public:
+    bool stateChanged = false;
+
     virtual ~SpecificEntityState() {}
     virtual DynamicJsonDocument getState() = 0;
     virtual void setStateFromMQTTMessage(String message) = 0;
