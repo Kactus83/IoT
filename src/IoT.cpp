@@ -17,6 +17,7 @@ public:
     }
 
     void setup() {
+        Serial.begin(9600);
         entitiesManager.createEntities();
         connectivityManager.connectHomeAssistant();
         entitiesManager.setupEntities();

@@ -14,24 +14,32 @@ public:
     : wifiManager(wifiManager), mqttManager(mqttManager), entitiesManager(entitiesManager), connectivityConfig(connectivityConfig) {}
 
     void connectHomeAssistant() override {
+        Serial.println("Attempting to connect to Home Assistant...");
         wifiManager.connect();
         if(wifiManager.isConnected()){
+            Serial.println("Connected to WiFi!");
             mqttManager.connect(wifiManager.getClient());
+        }
+        if(mqttManager.isConnected()){
+            Serial.println("Connected to MQTT!");
         }
     }
 
     void updateHomeAssistantConnection() override {
+        Serial.println("Updating Home Assistant connection...");
         checkHomeAssistantConnectionAndReconnect();
         mqttManager.update();
     }
 
     void subscribeToMQTTTopic(const String& topic) override {
+        Serial.println("Subscribing to MQTT topic: " + topic);
         if(wifiManager.isConnected() && mqttManager.isConnected()){
             mqttManager.subscribeToTopic(topic);
         }
     }
 
     void sendMQTTMessage(const String& topic, const String& message) override {
+        Serial.println("Sending MQTT message: " + message + " to topic: " + topic);
         if(wifiManager.isConnected() && mqttManager.isConnected()){
             mqttManager.sendMessage(topic, message);
         }
