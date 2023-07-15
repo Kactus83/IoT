@@ -9,8 +9,8 @@ struct FactorySettings {
     String MQTT_USERNAME;
     String MQTT_PASSWORD;
 
-    String WIFI_SSID;
-    String WIFI_PASSWORD;
+    const char* WIFI_SSID;
+    const char* WIFI_PASSWORD;
 
     String INTEGRATION_NAME;
     int MAX_ENTITIES;

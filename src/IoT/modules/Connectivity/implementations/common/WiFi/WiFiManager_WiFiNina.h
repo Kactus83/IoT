@@ -9,7 +9,7 @@ public:
     WiFiManager_WiFiNina(const WiFiConfig& wifiConfig) : WiFiManager(wifiConfig), wifiClient() {}
 
     void connect() override {
-        WiFi.begin(wifiConfig.SSID.c_str(), wifiConfig.PASSWORD.c_str());
+        WiFi.begin(wifiConfig.SSID, wifiConfig.PASSWORD);
     }
 
     bool isConnected() override {

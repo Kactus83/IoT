@@ -62,7 +62,7 @@ private:
     }
 
     String getDiscoveryTopic() const {
-        return config.INTEGRATION_NAME + "/config";
+        return config.INTEGRATION_NAME + "/discovery";
     }
 
     String getGetTopic(const String& type, const String& unique_id) const {

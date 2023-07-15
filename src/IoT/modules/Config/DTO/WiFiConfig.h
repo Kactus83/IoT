@@ -4,8 +4,8 @@
 #include <Arduino.h>
 
 struct WiFiConfig {
-    String SSID;
-    String PASSWORD;
+    const char* SSID;
+    const char* PASSWORD;
 };
 
 #endif // WIFI_CONFIG_H
