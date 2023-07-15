@@ -17,11 +17,14 @@ public:
     }
 
     void setup() {
+        entitiesManager.createEntities();
         connectivityManager.connectHomeAssistant();
+        entitiesManager.setupEntities();
     }
 
     void loop() {
-        // You might want to add your own code here.
+        connectivityManager.updateHomeAssistantConnection();
+        entitiesManager.entitiesLoop();
     }
 };
 
