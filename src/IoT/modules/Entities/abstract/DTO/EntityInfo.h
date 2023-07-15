@@ -4,11 +4,11 @@
 #include <Arduino.h>
 
 struct EntityInfo {
-    String type;
-    String unique_id;
-    String discoveryTopic;
-    String getTopic;
-    String setTopic;
+    const char* type;
+    const char* unique_id;
+    const char* discoveryTopic;
+    const char* getTopic;
+    const char* setTopic;
 };
 
 #endif // ENTITYINFO_H

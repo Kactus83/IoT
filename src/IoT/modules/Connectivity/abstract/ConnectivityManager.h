@@ -30,15 +30,19 @@ public:
         mqttManager.update();
     }
 
-    void subscribeToMQTTTopic(const String& topic) override {
-        Serial.println("Subscribing to MQTT topic: " + topic);
+    void subscribeToMQTTTopic(const char* topic) override {
+        Serial.print("Subscribing to MQTT topic: ");
+        Serial.println(topic);
         if(wifiManager.isConnected() && mqttManager.isConnected()){
             mqttManager.subscribeToTopic(topic);
         }
     }
 
-    void sendMQTTMessage(const String& topic, const String& message) override {
-        Serial.println("Sending MQTT message: " + message + " to topic: " + topic);
+    void sendMQTTMessage(const char* topic, const char* message) override {
+        Serial.print("Sending MQTT message: ");
+        Serial.print(message);
+        Serial.print(" to topic: ");
+        Serial.println(topic);
         if(wifiManager.isConnected() && mqttManager.isConnected()){
             mqttManager.sendMessage(topic, message);
         }

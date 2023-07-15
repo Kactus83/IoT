@@ -4,18 +4,18 @@
 #include <Arduino.h>
 
 struct FactorySettings {
-    String MQTT_SERVER;
+    const char* MQTT_SERVER;
     int MQTT_PORT;
-    String MQTT_USERNAME;
-    String MQTT_PASSWORD;
+    const char* MQTT_USERNAME;
+    const char* MQTT_PASSWORD;
 
     const char* WIFI_SSID;
     const char* WIFI_PASSWORD;
 
-    String INTEGRATION_NAME;
-    int MAX_ENTITIES;
-    String DEVICE_NAME;
-    String UNIQUE_ID;
+    const char* INTEGRATION_NAME;
+    int8_t MAX_ENTITIES;
+    const char* DEVICE_NAME;
+    const char* UNIQUE_ID;
 };
 
 #endif // FACTORY_SETTINGS_H

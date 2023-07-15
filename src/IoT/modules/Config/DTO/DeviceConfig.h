@@ -4,10 +4,10 @@
 #include <Arduino.h>
 
 struct DeviceConfig {
-    String INTEGRATION_NAME;
-    int MAX_ENTITIES;
-    String DEVICE_NAME;
-    String UNIQUE_ID;
+    const char* INTEGRATION_NAME;
+    int8_t MAX_ENTITIES;
+    const char* DEVICE_NAME;
+    const char* UNIQUE_ID;
 };
 
 #endif // DEVICE_CONFIG_H

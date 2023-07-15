@@ -6,8 +6,8 @@
 class MQTTMessagesManagerInterface {
 public:
     virtual ~MQTTMessagesManagerInterface() {}
-    virtual void subscribeToMQTTTopic(const String& topic) = 0;
-    virtual void sendMQTTMessage(const String& topic, const String& message) = 0;
+    virtual void subscribeToMQTTTopic(const char* topic) = 0;
+    virtual void sendMQTTMessage(const char* topic, const char* message) = 0;
 };
 
 #endif

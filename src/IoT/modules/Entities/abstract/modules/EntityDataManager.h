@@ -33,7 +33,7 @@ public:
 
             String output;
             serializeJson(doc, output);
-            messagesManager.sendMQTTMessage(info.getTopic, output);
+            messagesManager.sendMQTTMessage(info.getTopic, output.c_str());
 
             specificState->stateChanged = false;
         }
@@ -71,7 +71,7 @@ protected:
         String output;
         serializeJson(doc, output);
 
-        return output;
+        return output.c_str();
     }
 };
 

@@ -4,12 +4,12 @@
 #include <Arduino.h>
 
 struct MQTTConfig {
-    String CLIENT_ID;
-    String SERVER;
+    const char* CLIENT_ID;
+    const char* SERVER;
     int PORT;
-    String USERNAME;
-    String PASSWORD;
-    int MAX_TOPIC;
+    const char* USERNAME;
+    const char* PASSWORD;
+    int8_t MAX_TOPIC;
 };
 
 #endif // MQTT_CONFIG_H

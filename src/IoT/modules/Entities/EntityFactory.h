@@ -57,20 +57,32 @@ private:
         return true;
     }
 
-    String generateUniqueID(const String& type) {
-        return config.DEVICE_NAME + "_" + type + "_" + String(entityCount);
+    const char* generateUniqueID(const char* type) {
+        int bufferSize = strlen(config.DEVICE_NAME) + strlen(type) + sizeof(entityCount) + 3;
+        char* uniqueID = new char[bufferSize];
+        sprintf(uniqueID, "%s_%s_%d", config.DEVICE_NAME, type, entityCount);
+        return uniqueID;
     }
 
-    String getDiscoveryTopic() const {
-        return config.INTEGRATION_NAME + "/discovery";
+    const char* getDiscoveryTopic() const {
+        int bufferSize = strlen(config.INTEGRATION_NAME) + strlen("/discovery") + 1;
+        char* discoveryTopic = new char[bufferSize];
+        sprintf(discoveryTopic, "%s/discovery", config.INTEGRATION_NAME);
+        return discoveryTopic;
     }
 
-    String getGetTopic(const String& type, const String& unique_id) const {
-        return config.INTEGRATION_NAME + "/" + type + "/" + unique_id + "/get";
+    const char* getGetTopic(const char* type, const char* unique_id) const {
+        int bufferSize = strlen(config.INTEGRATION_NAME) + strlen(type) + strlen(unique_id) + strlen("/get") + 2;
+        char* getTopic = new char[bufferSize];
+        sprintf(getTopic, "%s/%s/%s/get", config.INTEGRATION_NAME, type, unique_id);
+        return getTopic;
     }
 
-    String getSetTopic(const String& type, const String& unique_id) const {
-        return config.INTEGRATION_NAME + "/" + type + "/" + unique_id + "/set";
+    const char* getSetTopic(const char* type, const char* unique_id) const {
+        int bufferSize = strlen(config.INTEGRATION_NAME) + strlen(type) + strlen(unique_id) + strlen("/set") + 2;
+        char* setTopic = new char[bufferSize];
+        sprintf(setTopic, "%s/%s/%s/set", config.INTEGRATION_NAME, type, unique_id);
+        return setTopic;
     }
 };
 
