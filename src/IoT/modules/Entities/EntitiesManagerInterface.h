@@ -6,8 +6,11 @@
 class EntitiesManagerInterface {
 public:
     virtual ~EntitiesManagerInterface() {}
-    virtual void handleIncomingMQTTMessage(const String& topic, const String& message) = 0;
+
+    virtual void setupEntities() = 0;
     virtual void handleHomeAssistantConnectionInterruption() = 0;
+    virtual void handleIncomingMQTTMessage(const String& message, const String& topic) = 0;
+    virtual void entitiesLoop() = 0;
 };
 
 #endif

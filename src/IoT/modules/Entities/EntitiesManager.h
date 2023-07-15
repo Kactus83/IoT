@@ -6,32 +6,46 @@
 #include "./EntityFactory.h"
 #include "../Config/DTO/DeviceConfig.h"
 #include "./abstract/GenericEntityInterface.h"
-#include "./abstract/DTO/EntitySettings.h"
 #include "../Connectivity/abstract/MQTTMessagesManagerInterface.h"
+#include "./implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Settings.h"
 
 class EntitiesManager : public EntitiesManagerInterface, public EntityFactory {
 public:
-    EntitiesManager(const DeviceConfig& config) : EntityFactory(config) {
-        maxEntities = config.MAX_ENTITIES;
-        entities = new GenericEntityInterface*[maxEntities]; 
+    EntitiesManager(const DeviceConfig& config) : EntityFactory(config) {}
+
+    ~EntitiesManager() {}
+
+    void setupEntities() override {
+        for(int entityIndex = 0; entityIndex < entityCount; entityIndex++){
+            entities[entityIndex]->setup();
+        }
     }
 
-    ~EntitiesManager() {
-        delete[] entities;
+    void createEntities() {
+        WS12_RGB_LED_Settings ledSettings(6, 144);
+        createWS12_RGB_LED_Entity(ledSettings);
     }
 
-    // Ces méthodes sont vides pour l'instant
-    void handleIncomingMQTTMessage(const String& topic, const String& message) override {}
-
-    void handleHomeAssistantConnectionInterruption() override {}
-
-    void addEntity(EntitySettings& settings) {
-        // Ne fait rien pour le moment
+    void handleIncomingMQTTMessage(const String& topic, const String& message) override {
+        for(int entityIndex = 0; entityIndex < entityCount; entityIndex++){
+            if(entities[entityIndex]->info.setTopic == topic){
+                entities[entityIndex]->handleMQTTMessage(topic, message);
+            }
+        }
     }
 
-private:
-    GenericEntityInterface** entities;
-    int maxEntities;
+    void handleHomeAssistantConnectionInterruption() override {
+        for(int entityIndex = 0; entityIndex < entityCount; entityIndex++){
+            entities[entityIndex]->reconnect();
+        }
+    }
+
+    void entitiesLoop() override {
+        for(int entityIndex = 0; entityIndex < entityCount; entityIndex++){
+            entities[entityIndex]->loop();
+        }
+    }
+
 };
 
 #endif // ENTITIESMANAGER_H

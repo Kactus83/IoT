@@ -4,49 +4,52 @@
 #include <Arduino.h>
 #include "../Config/DTO/DeviceConfig.h"
 #include "./abstract/GenericEntityInterface.h"
-#include "./abstract/DTO/EntitySettings.h"
 #include "../Connectivity/abstract/MQTTMessagesManagerInterface.h"
 #include "./implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Settings.h"
 #include "./implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Entity.h"
 
-// Ajoutez ceci avant la définition de la classe EntityFactory
-union EntitySettingsUnion {
-    EntitySettings base;
-    WS12_RGB_LED_Settings led_rgb;
-};
-
 class EntityFactory {
 public:
-    EntityFactory(const DeviceConfig& config) : config(config) {}
+    EntityFactory(const DeviceConfig& config) : config(config), maxEntities(config.MAX_ENTITIES) {
+        entities = new GenericEntityInterface*[maxEntities]; 
+    }
+
+    ~EntityFactory() {
+        delete[] entities;
+    }
 
     void setMessagesManager(MQTTMessagesManagerInterface& manager) {
         messagesManager = &manager;
     }
 
-    GenericEntityInterface* createEntity(const EntitySettingsUnion& settingsUnion) {
-        if (!checkEntitiesCount())
-            return nullptr;
-
-        if (settingsUnion.base.type == "led_rgb") {
-            EntityInfo info;
-            info.type = settingsUnion.base.type;
-            info.unique_id = generateUniqueID(settingsUnion.base.type);
-            info.discoveryTopic = getDiscoveryTopic();
-            info.getTopic = getGetTopic(settingsUnion.base.type, info.unique_id);
-            info.setTopic = getSetTopic(settingsUnion.base.type, info.unique_id);
-
-            return new WS12_RGB_LED_Entity(info, *messagesManager, settingsUnion.led_rgb);
-        }
-
-        return nullptr;
-    }
-
-private:
+protected:
     DeviceConfig config;
     MQTTMessagesManagerInterface* messagesManager = nullptr;
+    GenericEntityInterface** entities;
     int entityCount = 0;
     int maxEntities;
 
+    GenericEntityInterface* createWS12_RGB_LED_Entity(const WS12_RGB_LED_Settings& settings) {
+        if (!checkEntitiesCount())
+            return nullptr;
+
+        EntityInfo info;
+        info.type = "led_rgb";
+        info.unique_id = generateUniqueID(info.type);
+        info.discoveryTopic = getDiscoveryTopic();
+        info.getTopic = getGetTopic(info.type, info.unique_id);
+        info.setTopic = getSetTopic(info.type, info.unique_id);
+
+        GenericEntityInterface* newEntity = new WS12_RGB_LED_Entity(info, *messagesManager, settings);
+
+        entities[entityCount++] = newEntity;
+        
+        return newEntity;
+    }
+
+    // Ajoutez d'autres méthodes de création d'entités ici pour chaque nouveau type d'entité
+
+private:
     bool checkEntitiesCount() {
         if (entityCount >= maxEntities) {
             return false;
