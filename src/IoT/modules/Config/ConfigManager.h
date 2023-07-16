@@ -4,7 +4,9 @@
 #include "./DTO/FactorySettings.h"
 #include "./DTO/DeviceConfig.h"
 #include "./DTO/ConnectivityConfig.h"
+#include "./DTO/EntitiesConfig.h"
 
+template<class TEntitiesConfig>
 class ConfigManager {
 public:
     ConfigManager(const FactorySettings& factorySettings)
@@ -12,7 +14,8 @@ public:
           connectivityConfig({
             {factorySettings.WIFI_SSID, factorySettings.WIFI_PASSWORD},
             {getDeviceUniqueId(factorySettings), factorySettings.MQTT_SERVER, factorySettings.MQTT_PORT, factorySettings.MQTT_USERNAME, factorySettings.MQTT_PASSWORD}
-          }) {}
+          }),
+          entitiesConfig(deviceConfig) {}
 
     DeviceConfig& getDeviceConfig() {
         return deviceConfig;
@@ -22,12 +25,17 @@ public:
         return connectivityConfig;
     }
 
+    TEntitiesConfig& getEntitiesConfig() {
+        return entitiesConfig;
+    }
+
 private:
     DeviceConfig deviceConfig;
     ConnectivityConfig connectivityConfig;
+    TEntitiesConfig entitiesConfig;
 
     const char* getDeviceUniqueId(const FactorySettings& factorySettings) {
-        int bufferSize = strlen(factorySettings.DEVICE_NAME) + strlen(factorySettings.UNIQUE_ID) + 2; // +1 for the underscore and +1 for the null terminator
+        int bufferSize = strlen(factorySettings.DEVICE_NAME) + strlen(factorySettings.UNIQUE_ID) + 4; 
         char* uniqueId = new char[bufferSize];
         snprintf(uniqueId, bufferSize, "%s_%s", factorySettings.DEVICE_NAME, factorySettings.UNIQUE_ID);
         return uniqueId;

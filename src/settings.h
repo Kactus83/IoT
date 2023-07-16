@@ -18,3 +18,24 @@ FactorySettings factorySettings = {
 };
 
 #endif // SETTINGS_H
+
+#ifndef WS12_RGB_LED_ENTITIES_CONFIG_H
+#define WS12_RGB_LED_ENTITIES_CONFIG_H
+
+#include "./IoT/modules/Config/DTO/EntitiesConfig.h"
+#include "./IoT/modules/Config/DTO/DeviceConfig.h"
+#include "./IoT/modules/Entities/implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Settings.h"
+#include "./IoT/modules/Entities/implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Entity.h"
+
+class WS12_RGB_LED_EntitiesConfig : public EntitiesConfig {
+public:
+    WS12_RGB_LED_EntitiesConfig(DeviceConfig& deviceConfig)
+        : EntitiesConfig(deviceConfig) {
+        entityCount = 1;  // Définir le nombre d'entités
+        entities = new GenericEntityInterface*[entityCount]; 
+        WS12_RGB_LED_Settings ledSettings = {6, 144}; 
+        entities[0] = new WS12_RGB_LED_Entity(deviceConfig, ledSettings);
+    }
+};
+
+#endif // WS12_RGB_LED_ENTITIES_CONFIG_H

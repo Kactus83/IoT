@@ -9,17 +9,22 @@
 #include "./modules/Abstract_EntityHardwareManager.h"
 #include "./GenericEntityInterface.h"
 #include "../../Connectivity/abstract/MQTTMessagesManagerInterface.h"
+#include "../../Config/DTO/DeviceConfig.h"
 
 template<class HardwareManager, class SpecificState, class EntitySettings>
-
 class GenericEntity : public GenericEntityInterface {
 public:
-    GenericEntity(EntityInfo& info, const EntitySettings& settings, MQTTMessagesManagerInterface& messagesManager)
-        : info(info), settings(settings), genericState(), dataManager(info, genericState, &specificState, messagesManager), hardwareManager(specificState, settings) {
+    GenericEntity(const DeviceConfig& config, const EntitySettings& settings)
+        : GenericEntityInterface(info), info(config, settings), settings(settings), genericState(), hardwareManager(specificState, settings), dataManager(info, genericState, &specificState) {
             genericState.enabled = true;
         }
 
     virtual ~GenericEntity() {}
+
+    void setMessageManager(MQTTMessagesManagerInterface& messagesManager) {
+        this->messagesManager = &messagesManager;
+        dataManager.setMessagesManager(messagesManager);
+    }
 
     virtual void setup() override {
         hardwareManager.initHardware();
@@ -41,13 +46,13 @@ public:
     }
 
 private:
-    EntityInfo& info;
+    EntityInfo info;
     const EntitySettings& settings;
     GenericEntityState genericState;
     SpecificState specificState;
     EntityDataManager dataManager;
-    MQTTMessagesManagerInterface& messagesManager;
     HardwareManager hardwareManager;
+    MQTTMessagesManagerInterface* messagesManager; 
 };
 
 #endif // GENERICENTITY_H

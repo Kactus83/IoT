@@ -10,24 +10,28 @@
 
 class EntityDataManager {
 public:
-    EntityDataManager(EntityInfo& info, GenericEntityState& state, SpecificEntityState* specificState, MQTTMessagesManagerInterface& messagesManager)
-        : info(info), state(state), specificState(specificState), messagesManager(messagesManager) {}
+    EntityDataManager(EntityInfo& info, GenericEntityState& state, SpecificEntityState* specificState)
+        : info(info), state(state), specificState(specificState), messagesManager(nullptr) {}
 
     virtual ~EntityDataManager() {}
 
+    void setMessagesManager(MQTTMessagesManagerInterface& messagesManager) {
+        this->messagesManager = &messagesManager;
+    }
+
     virtual void setupEntityForHomeAssistant() {
         const char* discoveryMessage = createDiscoveryMessage();
-        messagesManager.sendMQTTMessage(info.discoveryTopic, discoveryMessage);
-        messagesManager.subscribeToMQTTTopic(info.setTopic);
+        messagesManager->sendMQTTMessage(info.discoveryTopic, discoveryMessage);
+        messagesManager->subscribeToMQTTTopic(info.setTopic);
     }
 
     virtual void sendState() {
-        if(specificState->stateChanged) {
+        if (specificState->stateChanged) {
             DynamicJsonDocument doc(1024);
             doc["enabled"] = state.enabled;
 
             DynamicJsonDocument specificStateDoc = specificState->getState();
-            for(JsonPair kv : specificStateDoc.as<JsonObject>()) {
+            for (JsonPair kv : specificStateDoc.as<JsonObject>()) {
                 doc[kv.key()] = kv.value();
             }
 
@@ -40,7 +44,7 @@ public:
             // Sérialisez le document JSON dans le tableau de char
             serializeJson(doc, output, jsonSize + 1);
 
-            messagesManager.sendMQTTMessage(info.getTopic, output);
+            messagesManager->sendMQTTMessage(info.getTopic, output);
 
             specificState->stateChanged = false;
 
@@ -53,7 +57,7 @@ public:
         DynamicJsonDocument doc(1024);
         deserializeJson(doc, message);
 
-        if(doc.containsKey("enabled")) {
+        if (doc.containsKey("enabled")) {
             state.enabled = doc["enabled"];
         }
 
@@ -64,7 +68,7 @@ protected:
     EntityInfo& info;
     GenericEntityState& state;
     SpecificEntityState* specificState;
-    MQTTMessagesManagerInterface& messagesManager;
+    MQTTMessagesManagerInterface* messagesManager;
 
     char* createDiscoveryMessage() {
         DynamicJsonDocument doc(1024);
@@ -74,7 +78,7 @@ protected:
         doc["enabled"] = state.enabled;
 
         DynamicJsonDocument specificStateDoc = specificState->getState();
-        for(JsonPair kv : specificStateDoc.as<JsonObject>()) {
+        for (JsonPair kv : specificStateDoc.as<JsonObject>()) {
             doc[kv.key()] = kv.value();
         }
 
@@ -89,7 +93,6 @@ protected:
 
         return output;
     }
-
 };
 
 #endif // ENTITYDATAMANAGER_H

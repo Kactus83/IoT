@@ -4,21 +4,20 @@
 #include "IoT/modules/Connectivity/implementations/ArduinoUno/ConnectivityManager_ArduinoUno.h"
 
 class IoTController {
-    ConfigManager configManager;
+    ConfigManager<WS12_RGB_LED_EntitiesConfig> configManager;
     EntitiesManager entitiesManager;
     ConnectivityManager_ArduinoUno connectivityManager;
 
 public:
     IoTController(const FactorySettings& factorySettings)
     : configManager(factorySettings),
-      entitiesManager(configManager.getDeviceConfig()),
+      entitiesManager(configManager.getEntitiesConfig()),
       connectivityManager(entitiesManager, configManager.getConnectivityConfig()) {
         entitiesManager.setMessagesManager(connectivityManager);
     }
 
     void setup() {
         Serial.begin(9600);
-        entitiesManager.createEntities();
         connectivityManager.connectHomeAssistant();
         entitiesManager.setupEntities();
     }
