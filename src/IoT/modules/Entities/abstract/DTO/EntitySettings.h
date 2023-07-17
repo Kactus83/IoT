@@ -6,7 +6,8 @@
 class EntitySettings {
 public:
     const char* type;
-    int8_t* index;
+    const char* name;
+    int8_t index;
     virtual ~EntitySettings() {}
 };
 

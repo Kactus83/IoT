@@ -23,6 +23,10 @@ protected:
     EntitiesManagerInterface& entitiesManager;
 
     void handleMQTTMessage(const char* topic, const char* message) {
+        Serial.print("Handling MQTT message: ");
+        Serial.print(message);
+        Serial.print(" on topic: ");
+        Serial.println(topic);
         entitiesManager.handleIncomingMQTTMessage(topic, message);
     }
 };

@@ -33,7 +33,7 @@ public:
         : EntitiesConfig(deviceConfig) {
         entityCount = 1;  // Définir le nombre d'entités
         entities = new GenericEntityInterface*[entityCount]; 
-        WS12_RGB_LED_Settings ledSettings = {6, 144}; 
+        WS12_RGB_LED_Settings ledSettings = {6, 144, 0}; 
         entities[0] = new WS12_RGB_LED_Entity(deviceConfig, ledSettings);
     }
 };

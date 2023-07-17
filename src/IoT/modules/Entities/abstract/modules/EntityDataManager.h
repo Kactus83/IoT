@@ -74,6 +74,7 @@ protected:
         DynamicJsonDocument doc(1024);
 
         doc["type"] = info.type;
+        doc["name"] = info.name;
         doc["unique_id"] = info.unique_id;
         doc["enabled"] = state.enabled;
 
@@ -93,6 +94,7 @@ protected:
 
         return output;
     }
+
 };
 
 #endif // ENTITYDATAMANAGER_H
