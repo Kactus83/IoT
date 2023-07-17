@@ -19,23 +19,34 @@ FactorySettings factorySettings = {
 
 #endif // SETTINGS_H
 
-#ifndef WS12_RGB_LED_ENTITIES_CONFIG_H
-#define WS12_RGB_LED_ENTITIES_CONFIG_H
+#ifndef TEST_ENTITIES_CONFIG_H
+#define TEST_ENTITIES_CONFIG_H
 
 #include "./IoT/modules/Config/DTO/EntitiesConfig.h"
 #include "./IoT/modules/Config/DTO/DeviceConfig.h"
-#include "./IoT/modules/Entities/implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Settings.h"
-#include "./IoT/modules/Entities/implementations/lights/WS12_RGB_LED/WS12_RGB_LED_Entity.h"
+#include "./IoT/modules/Entities/implementations/sensors/MICS_4514/MICS_4514_Settings.h"
+#include "./IoT/modules/Entities/implementations/sensors/MICS_4514/MICS_4514_Entity.h"
+#include "./IoT/modules/Entities/implementations/sensors/SCD30/SCD30_Settings.h"
+#include "./IoT/modules/Entities/implementations/sensors/SCD30/SCD30_Entity.h"
+#include "./IoT/modules/Entities/implementations/sensors/SDS011/SDS011_Settings.h"
+#include "./IoT/modules/Entities/implementations/sensors/SDS011/SDS011_Entity.h"
 
-class WS12_RGB_LED_EntitiesConfig : public EntitiesConfig {
+class TestEntitiesConfig : public EntitiesConfig {
 public:
-    WS12_RGB_LED_EntitiesConfig(DeviceConfig& deviceConfig)
+    TestEntitiesConfig(DeviceConfig& deviceConfig)
         : EntitiesConfig(deviceConfig) {
-        entityCount = 1;  // Définir le nombre d'entités
+        entityCount = 3;  // Nous avons trois entités
         entities = new GenericEntityInterface*[entityCount]; 
-        WS12_RGB_LED_Settings ledSettings = {6, 144, 0}; 
-        entities[0] = new WS12_RGB_LED_Entity(deviceConfig, ledSettings);
+        
+        MICS_4514_Settings micsSettings(2, 3, 0);  // remplacer 2 et 3 par les vraies broches
+        entities[0] = new MICS_4514_Entity(deviceConfig, micsSettings);
+        
+        SCD30_Settings scdSettings(1);  // Index mis à jour
+        entities[1] = new SCD30_Entity(deviceConfig, scdSettings);
+        
+        SDS011_Settings sdsSettings(4, 5, 2);  // Index et broches mis à jour
+        entities[2] = new SDS011_Entity(deviceConfig, sdsSettings);
     }
 };
 
-#endif // WS12_RGB_LED_ENTITIES_CONFIG_H
+#endif // TEST_ENTITIES_CONFIG_H

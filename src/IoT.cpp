@@ -4,7 +4,7 @@
 #include "IoT/modules/Connectivity/implementations/ArduinoUno/ConnectivityManager_ArduinoUno.h"
 
 class IoTController {
-    ConfigManager<WS12_RGB_LED_EntitiesConfig> configManager;
+    ConfigManager<TestEntitiesConfig> configManager;
     EntitiesManager entitiesManager;
     ConnectivityManager_ArduinoUno connectivityManager;
 
