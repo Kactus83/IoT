@@ -3,6 +3,8 @@
 
 #include "./DTO/EntityInfo.h"
 #include "./DTO/EntityState.h"
+#include "./DTO/AbstractEntityHardwareState.h"
+
 
 class EntityInterface
 {
@@ -12,6 +14,7 @@ public:
     virtual const EntityInfo& getInfo() const = 0;
     virtual EntityState& getState() = 0;
     virtual const EntityState& getState() const = 0;
+    virtual AbstractEntityHardwareState& getHardwareState() = 0;
 protected:
     EntityInterface(EntityInfo info, EntityState state) : info_(info), state_(state) {}
 
