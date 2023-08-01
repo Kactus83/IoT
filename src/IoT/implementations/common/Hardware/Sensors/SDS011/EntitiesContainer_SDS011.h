@@ -9,10 +9,10 @@
 #include "../../../Entity/Sensors/Humidity/Humidity_Sensor_Entity.h"
 #include "../../../Entity/Sensors/Temperature/Temperature_Sensor_Entity.h"
 
-class Entities_Container_SDS011 : public AbstractEntitiesContainer
+class EntitiesContainer_SDS011 : public AbstractEntitiesContainer
 {
 public:
-    Entities_Container_SDS011(const char* unique_id_base)
+    EntitiesContainer_SDS011(const char* unique_id_base)
         : AbstractEntitiesContainer(entities, 3), // Pass the entities array and its size to the base constructor
           co2Sensor(generateUniqueId(unique_id_base, "CO2")),
           humiditySensor(generateUniqueId(unique_id_base, "Humidity")),

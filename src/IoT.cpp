@@ -1,16 +1,16 @@
-#include "IoT/implementations/common/Hardware/Sensors/SDS011/Entities_Container_SDS011.h"
+#include "IoT/implementations/common/Hardware/Sensors/SDS011/HardwareDeviceModule_SDS011.h"
 #include <Arduino.h>
 
 // Define global variable
-Entities_Container_SDS011* sds011Container;
+HardwareDeviceModule_SDS011* sds011Module;
 
 // Define the interval for logs
 const long interval = 10000; // 10 seconds
 unsigned long previousMillis = 0;  // will store the last time logs were displayed
 
 void setup() {
-    // Initialize the container
-    sds011Container = new Entities_Container_SDS011("SDS011_Base_Id");
+    // Initialize the module
+    sds011Module = new HardwareDeviceModule_SDS011(0, 1); // Supposons que le capteur SDS011 est connecté aux broches 0 et 1
     
     // Initialize serial communication
     Serial.begin(9600);
@@ -20,6 +20,9 @@ void setup() {
 
 void loop() {
     // ... Your regular loop code ...
+
+    // Get entities container from the module
+    EntitiesContainerInterface* sds011Container = sds011Module->entitiesContainer;
 
     // Log container data every 10 seconds
     unsigned long currentMillis = millis();
@@ -48,4 +51,3 @@ void loop() {
         }
     }
 }
-
