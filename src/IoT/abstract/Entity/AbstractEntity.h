@@ -11,6 +11,7 @@ public:
     EntityState& getState() override { return state_; }
     const EntityState& getState() const override { return state_; }
     AbstractEntityHardwareState& getHardwareState() override { return hardwareState_; } // Implémente la méthode de l'interface
+    HardwareState& getSpecificHardwareState() { return hardwareState_; }
 
 protected:
     AbstractEntity(const char* name, const char* type, const char* unique_id)

@@ -1,24 +1,24 @@
-#ifndef CO2_SENSOR_HARDWARE_STATE_H
-#define CO2_SENSOR_HARDWARE_STATE_H
+#ifndef PM10_SENSOR_HARDWARE_STATE_H
+#define PM10_SENSOR_HARDWARE_STATE_H
 
 #include "../../../../../abstract/Entity/DTO/AbstractEntityHardwareState.h"
 
-class CO2_Sensor_HardwareState : public AbstractEntityHardwareState
+class PM10_Sensor_HardwareState : public AbstractEntityHardwareState
 {
 public:
-    int CO2 = 0;
+    float pm10 = 0.0;
 
     virtual DynamicJsonDocument getJSONHardwareState() override {
         DynamicJsonDocument doc(1024);
-        doc["CO2"] = CO2;
+        doc["pm10"] = pm10;
         return doc;
     }
 
     virtual void setHardwareStateFromJSON(const String& json) override {
         DynamicJsonDocument doc(1024);
         deserializeJson(doc, json);
-        CO2 = doc["CO2"];
+        pm10 = doc["pm10"];
     }
 };
 
-#endif // CO2_SENSOR_HARDWARE_STATE_H
+#endif // PM10_SENSOR_HARDWARE_STATE_H

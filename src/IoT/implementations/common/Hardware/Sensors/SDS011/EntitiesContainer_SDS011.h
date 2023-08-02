@@ -1,37 +1,32 @@
-// Entities_Container_SDS011.h
-
 #ifndef ENTITIES_CONTAINER_SDS011_H
 #define ENTITIES_CONTAINER_SDS011_H
 
 #include "../../../../../abstract/Entity/EntitiesContainerInterface.h"
 #include "../../../../../abstract/Entity/AsbtractEntitiesContainer.h"
-#include "../../../Entity/Sensors/CO2/CO2_Sensor_Entity.h"
-#include "../../../Entity/Sensors/Humidity/Humidity_Sensor_Entity.h"
-#include "../../../Entity/Sensors/Temperature/Temperature_Sensor_Entity.h"
+#include "../../../Entity/Sensors/PM10/PM10_Sensor_Entity.h"
+#include "../../../Entity/Sensors/PM2-5/PM2-5_Sensor_Entity.h"
 
 class EntitiesContainer_SDS011 : public AbstractEntitiesContainer
 {
 public:
     EntitiesContainer_SDS011(const char* unique_id_base)
-        : AbstractEntitiesContainer(entities, 3), // Pass the entities array and its size to the base constructor
-          co2Sensor(generateUniqueId(unique_id_base, "CO2")),
-          humiditySensor(generateUniqueId(unique_id_base, "Humidity")),
-          temperatureSensor(generateUniqueId(unique_id_base, "Temperature"))
+        : AbstractEntitiesContainer(entities, 2), // Pass the entities array and its size to the base constructor
+          pm10Sensor(generateUniqueId(unique_id_base, "PM10")),
+          pm2_5Sensor(generateUniqueId(unique_id_base, "PM2-5"))
     {
         // Initialize the entities array with pointers to the sensor entities
-        entities[0] = &co2Sensor;
-        entities[1] = &humiditySensor;
-        entities[2] = &temperatureSensor;
+        entities[0] = &pm10Sensor;
+        entities[1] = &pm2_5Sensor;
     }
 
-private:
-    // Store sensor entities as member variables
-    CO2_Sensor_Entity co2Sensor;
-    Humidity_Sensor_Entity humiditySensor;
-    Temperature_Sensor_Entity temperatureSensor;
+public:
+    // Store sensor entities as public member variables
+    PM10_Sensor_Entity pm10Sensor;
+    PM2_5_Sensor_Entity pm2_5Sensor;
 
+private:
     // Array of pointers to the sensor entities
-    EntityInterface* entities[3];
+    EntityInterface* entities[2];
 };
 
 #endif // ENTITIES_CONTAINER_SDS011_H
