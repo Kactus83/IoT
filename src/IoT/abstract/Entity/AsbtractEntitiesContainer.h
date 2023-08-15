@@ -61,7 +61,29 @@ protected:
      * @param suffix An optional suffix to append to the base.
      * @return A string representing the unique identifier.
      */
-    const char* generateUniqueId(const char* base, const char* suffix = nullptr);
+    const char* generateUniqueId(const char* base, const char* suffix = nullptr)
+    {
+        if(suffix == nullptr)
+            return base;
+        
+        // Determine the size of the resulting string.
+        int baseLength = strlen(base);
+        int suffixLength = strlen(suffix);
+
+        // Allocate memory for the resulting string.
+        char* uniqueId = new char[baseLength + suffixLength + 2];  // +2 for the underscore and the null-terminator.
+
+        // Copy base into uniqueId.
+        strcpy(uniqueId, base);
+
+        // Append underscore.
+        uniqueId[baseLength] = '_';
+
+        // Append suffix to uniqueId.
+        strcpy(uniqueId + baseLength + 1, suffix);
+
+        return uniqueId;
+    }
 };
 
 #endif // ABSTRACT_ENTITIES_CONTAINER_H
