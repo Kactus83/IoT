@@ -1,5 +1,3 @@
-// EntitiesContainerInterface.h
-
 #ifndef ENTITIES_CONTAINER_INTERFACE_H
 #define ENTITIES_CONTAINER_INTERFACE_H
 
